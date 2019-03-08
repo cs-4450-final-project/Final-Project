@@ -1,3 +1,4 @@
+
 /** ********************************************************************************
  * File: Polygon.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho

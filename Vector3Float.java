@@ -1,3 +1,4 @@
+
 /** ********************************************************************************
  * File: CameraPosition.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
@@ -10,6 +11,7 @@
  * Same as the Vector3Float class from the slides.
  ********************************************************************************* */
 public class Vector3Float {
+
     private float x, y, z;
 
     public Vector3Float(float x, float y, float z) {
@@ -41,5 +43,5 @@ public class Vector3Float {
     public void setZ(float z) {
         this.z = z;
     }
-    
+
 }

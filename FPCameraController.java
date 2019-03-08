@@ -1,3 +1,4 @@
+
 /** ********************************************************************************
  * File: FPCameraController.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
@@ -91,5 +92,5 @@ public class FPCameraController {
         glTranslatef(position.getX(), position.getY(), position.getZ());
 
     }
-    
+
 }
