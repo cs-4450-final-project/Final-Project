@@ -29,46 +29,74 @@ public class DisplayWindow3D {
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
         shapes = new ArrayList<>();
-        Polyhedron newShape = new Polyhedron();
-        float sideLength = 0.5f;
-        Polygon newSide = new Polygon(1.0f, 0.0f, 0.0f);    //side 1, top
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
-        newShape.addSide(newSide);
-        newSide = new Polygon(0.0f, 1.0f, 0.0f);    //side 2, bottom
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
-        newShape.addSide(newSide);
-        newSide = new Polygon(0.0f, 0.0f, 1.0f);    //side 3, front
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
-        newShape.addSide(newSide);
-        newSide = new Polygon(1.0f, 1.0f, 0.0f);    //side 4, back
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
-        newShape.addSide(newSide);
-        newSide = new Polygon(1.0f, 0.0f, 1.0f);    //side 5, left
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
-        newShape.addSide(newSide);
-        newSide = new Polygon(0.0f, 1.0f, 1.0f);    //side 6, right
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
-        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
-        newShape.addSide(newSide);
+        Polyhedron newShape = createCube(0,0,0,1,1,1,1);
+        newShape.getSides().get(0).setRed(0);
+        newShape.getSides().get(1).setGreen(0);
+        newShape.getSides().get(2).setBlue(0);
+        newShape.getSides().get(3).setRed(0);
+        newShape.getSides().get(3).setGreen(0);
+        newShape.getSides().get(4).setRed(0);
+        newShape.getSides().get(4).setBlue(0);
+        newShape.getSides().get(5).setBlue(0);
+        newShape.getSides().get(5).setGreen(0);
         shapes.add(newShape);
+        newShape = createCube(-5,0,0,0,1,1,1);
+        shapes.add(newShape);
+        newShape = createCube(0,-5,0,1,0,1,1);
+        shapes.add(newShape);
+        newShape = createCube(0,0,-5,1,1,0,1);
+        shapes.add(newShape);
+        newShape = createCube(5,0,0,0,0,1,1);
+        shapes.add(newShape);
+        newShape = createCube(0,5,0,1,0,0,1);
+        shapes.add(newShape);
+        newShape = createCube(0,0,5,0,1,0,1);
+        shapes.add(newShape);
+        
+        
 
+    }
+    
+    private Polyhedron createCube(float x, float y, float z, float r, float g, float b, float length){ //XYZ+RGB+L
+        Polyhedron newShape = new Polyhedron();
+        float sideLength = length;
+        Polygon newSide = new Polygon(r, g, b);    //side 1, top
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z+sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(r, g, b);    //side 2, bottom
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z-sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(r, g, b);    //side 3, front
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z+sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(r, g, b);    //side 4, back
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z-sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(r, g, b);    //side 5, left
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y+sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x-sideLength, y-sideLength, z+sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(r, g, b);    //side 6, right
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z-sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y+sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z+sideLength));
+        newSide.addPoint(new Vector3Float(x+sideLength, y-sideLength, z-sideLength));
+        newShape.addSide(newSide);
+        return newShape;
     }
 
     /**
