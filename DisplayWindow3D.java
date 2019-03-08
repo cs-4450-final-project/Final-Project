@@ -33,6 +33,14 @@ public class DisplayWindow3D {
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
         shapes = new ArrayList<>();
+
+        initializeObjects();
+    }
+    
+    
+    private void initializeObjects() {
+        drawCube(0, 0, 0, 0.5f);
+        drawCube(2, 1, 1, 0.5f);
     }
 
     private void createSide(Vector3Float location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side) {
@@ -230,9 +238,6 @@ public class DisplayWindow3D {
 
     private void render() {
         try {
-
-            drawCube(0, 0, 0, 0.5f);
-            drawCube(2, 1, 1, 0.5f);
 
             for (Iterator<Polyhedron> iterator = shapes.iterator(); iterator.hasNext();) {
                 drawPolyhedron(iterator.next());
