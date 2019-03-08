@@ -1,60 +1,70 @@
+/** ********************************************************************************
+ * File: Polygon.java
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Class: CS 4450 - Computer Graphics
+ *
+ * Assignment: Final Project
+ * Date last modified: 3/8/19
+ *
+ * Purpose: Represents a 2D shape. Holds it's color values and vector points.
+ ********************************************************************************* */
 
 import java.util.ArrayList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Jikemsa
- */
 public class Polygon {
+
     private ArrayList<Vector3Float> vertexPoints;
     private float red, green, blue;
-    Polygon(){
-        
+
+    Polygon() {
+        this(1, 0, 0);
     }
-    Polygon(float r, float g, float b){
-        red = r;
-        green = g;
-        blue = b;
-        vertexPoints = new ArrayList<>();
+
+    Polygon(float red, float green, float blue) {
+        this(red, green, blue, new ArrayList<Vector3Float>());
     }
-    Polygon(float r, float g, float b, ArrayList<Vector3Float> vp){
-        red = r;
-        green = g;
-        blue = b;
-        vertexPoints = vp;
+
+    Polygon(float red, float green, float blue, ArrayList<Vector3Float> vertexPoints) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.vertexPoints = vertexPoints;
     }
-    public float getRed(){
+
+    public float getRed() {
         return red;
     }
-    public float getGreen(){
+
+    public float getGreen() {
         return green;
     }
-    public float getBlue(){
+
+    public float getBlue() {
         return blue;
     }
-    public void setRed(float r){
-        red = r;
+
+    public void setRed(float red) {
+        this.red = red;
     }
-    public void setGreen(float g){
-        green = g;
+
+    public void setGreen(float green) {
+        this.green = green;
     }
-    public void setBlue(float b){
-        blue = b;
+
+    public void setBlue(float blue) {
+        this.blue = blue;
     }
-    public ArrayList<Vector3Float> getPoints(){
+
+    public ArrayList<Vector3Float> getPoints() {
         return vertexPoints;
     }
-    public void setPoints(ArrayList<Vector3Float> vp){
-        vertexPoints = vp;
+
+    public void setPoints(ArrayList<Vector3Float> vertexPoints) {
+        this.vertexPoints = vertexPoints;
     }
-    public void addPoint(Vector3Float v){
+
+    public void addPoint(Vector3Float v) {
         vertexPoints.add(v);
     }
-    
+
 }

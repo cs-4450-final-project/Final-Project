@@ -1,31 +1,38 @@
 
+/** ********************************************************************************
+ * File: Polyhedron.java
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Class: CS 4450 - Computer Graphics
+ *
+ * Assignment: Final Project
+ * Date last modified: 3/8/19
+ *
+ * Purpose: Represents a 2D shape. Holds it's color values and vector points.
+ ********************************************************************************* */
+
 import java.util.ArrayList;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Jikemsa
- */
 public class Polyhedron {
+
     private ArrayList<Polygon> sides;
-    Polyhedron(){
-        sides = new ArrayList<>();
+
+    Polyhedron() {
+        this(new ArrayList<Polygon>());
     }
-    Polyhedron(ArrayList<Polygon> s){
-        sides = s;
+
+    Polyhedron(ArrayList<Polygon> sides) {
+        this.sides = sides;
     }
-    public ArrayList<Polygon> getSides(){
+
+    public ArrayList<Polygon> getSides() {
         return sides;
     }
-    public void setSides(ArrayList<Polygon> s){
-        sides = s;
+
+    public void setSides(ArrayList<Polygon> sides) {
+        this.sides = sides;
     }
-    public void addSide(Polygon p){
-        sides.add(p);
+
+    public void addSide(Polygon polygon) {
+        sides.add(polygon);
     }
 }
