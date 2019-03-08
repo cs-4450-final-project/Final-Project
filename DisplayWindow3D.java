@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/7/19
+ * Date last modified: 3/8/19
  *
  * Purpose: To display the screen.
  ********************************************************************************* */
@@ -37,13 +37,12 @@ public class DisplayWindow3D {
         initializeObjects();
     }
     
-    
     private void initializeObjects() {
         drawCube(0, 0, 0, 0.5f);
         drawCube(2, 1, 1, 0.5f);
     }
 
-    private void createSide(Vector3Float location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side) {
+    private void createSide(Vector3f location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side) {
         Polygon newSide = new Polygon(r, b, g);
         float x = location.getX();
         float y = location.getY();
@@ -52,41 +51,41 @@ public class DisplayWindow3D {
         if (null != side) {
             switch (side) {
                 case TOP:
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z + sideLength));
                     newCube.addSide(newSide);
                     break;
                 case BOTTOM:
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z - sideLength));
                     break;
                 case FRONT:
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z + sideLength));
                     break;
                 case BACK:
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z - sideLength));
                     break;
                 case LEFT:
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y + sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x - sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x - sideLength, y - sideLength, z + sideLength));
                     break;
                 case RIGHT:
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z - sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y + sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z + sideLength));
-                    newSide.addPoint(new Vector3Float(x + sideLength, y - sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z - sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y + sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z + sideLength));
+                    newSide.addPoint(new Vector3f(x + sideLength, y - sideLength, z - sideLength));
                     break;
                 default:
                     break;
@@ -97,7 +96,7 @@ public class DisplayWindow3D {
 
     private void drawCube(float x, float y, float z, float sideLength) {
         Polyhedron newCube = new Polyhedron();
-        Vector3Float location = new Vector3Float(x, y, z);
+        Vector3f location = new Vector3f(x, y, z);
 
         createSide(location, newCube, sideLength, 1f, 0f, 0f, Side.TOP);
         createSide(location, newCube, sideLength, 0f, 1f, 0f, Side.BOTTOM);
@@ -226,11 +225,11 @@ public class DisplayWindow3D {
     }
 
     private void drawPolygon(Polygon p) {
-        ArrayList<Vector3Float> s = p.getPoints();
+        ArrayList<Vector3f> s = p.getPoints();
         glColor3f(p.getRed(), p.getGreen(), p.getBlue());
         glBegin(GL_POLYGON);
-        for (Iterator<Vector3Float> iterator = s.iterator(); iterator.hasNext();) { //draw each polygon, then fill it appropriately. Changes the color before drawing and doesn't change it until the next polygon
-            Vector3Float f = iterator.next();
+        for (Iterator<Vector3f> iterator = s.iterator(); iterator.hasNext();) { //draw each polygon, then fill it appropriately. Changes the color before drawing and doesn't change it until the next polygon
+            Vector3f f = iterator.next();
             glVertex3f(f.getX(), f.getY(), f.getZ());
         }
         glEnd();

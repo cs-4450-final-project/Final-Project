@@ -10,10 +10,11 @@
  ********************************************************************************* */
 
 import java.util.ArrayList;
+import org.lwjgl.util.vector.Vector3f;
 
 public class Polygon {
 
-    private ArrayList<Vector3Float> vertexPoints;
+    private ArrayList<Vector3f> vertexPoints;
     private float red, green, blue;
 
     Polygon() {
@@ -21,10 +22,10 @@ public class Polygon {
     }
 
     Polygon(float red, float green, float blue) {
-        this(red, green, blue, new ArrayList<Vector3Float>());
+        this(red, green, blue, new ArrayList<Vector3f>());
     }
 
-    Polygon(float red, float green, float blue, ArrayList<Vector3Float> vertexPoints) {
+    Polygon(float red, float green, float blue, ArrayList<Vector3f> vertexPoints) {
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -55,15 +56,15 @@ public class Polygon {
         this.blue = blue;
     }
 
-    public ArrayList<Vector3Float> getPoints() {
+    public ArrayList<Vector3f> getPoints() {
         return vertexPoints;
     }
 
-    public void setPoints(ArrayList<Vector3Float> vertexPoints) {
+    public void setPoints(ArrayList<Vector3f> vertexPoints) {
         this.vertexPoints = vertexPoints;
     }
 
-    public void addPoint(Vector3Float v) {
+    public void addPoint(Vector3f v) {
         vertexPoints.add(v);
     }
 

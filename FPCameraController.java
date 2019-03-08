@@ -18,14 +18,14 @@ import org.lwjgl.Sys;
 
 public class FPCameraController {
 
-    private Vector3Float position = null;
-    private Vector3Float lPosition = null;
-    private Vector3Float me = null;
+    private Vector3f position = null;
+    private Vector3f lPosition = null;
+    private Vector3f me = null;
     private float yaw, pitch;
 
     public FPCameraController(float x, float y, float z) {
-        position = new Vector3Float(x, y, z);
-        lPosition = new Vector3Float(x, y, z);
+        position = new Vector3f(x, y, z);
+        lPosition = new Vector3f(x, y, z);
 
         lPosition.setX(0f);
         lPosition.setY(15f);
