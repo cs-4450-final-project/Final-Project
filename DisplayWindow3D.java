@@ -1,41 +1,48 @@
+
 /** ********************************************************************************
- * File: DisplayWindow.java
+ * File: DisplayWindow3D.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/4/19
+ * Date last modified: 3/7/19
  *
  * Purpose: To display the screen.
  ********************************************************************************* */
-
-import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.Sys;
+import org.lwjgl.util.glu.GLU;
 
-public class DisplayWindow {
-    public DisplayWindow() {
+public class DisplayWindow3D {
+
+    private FPCameraController camera;
+    private DisplayMode displayMode;
+
+    public DisplayWindow3D() {
+        camera = new FPCameraController(0f, 0f, 0f);
     }
-    
+
     /**
-     * Method: start()
-     * Purpose: To create, initialize GL, and render the window of
-     * the display.
+     * Method: start() Purpose: To create, initialize GL, and render the window
+     * of the display.
      */
     public void start() {
         try {
             createWindow();
             initGL();
-            render();
+            gameLoop();
         } catch (Exception e) {
             System.out.println("Window creation failed!");
         }
     }
 
     /**
-     * Method: createWindow()
-     * Purpose: It creates the window and its title.
+     * Method: createWindow() Purpose: It creates the window and its title.
      * Default size for program 1 is 640x480.
      *
      * @throws Exception
@@ -43,53 +50,102 @@ public class DisplayWindow {
     private void createWindow() throws Exception {
         Display.setFullscreen(false);
 
-        Display.setDisplayMode(new DisplayMode(640, 480));
+        DisplayMode d[] = Display.getAvailableDisplayModes();
+
+        for (int i = 0; i < d.length; i++) {
+            if (d[i].getWidth() == 640 && d[i].getHeight() == 480 && d[i].getBitsPerPixel() == 32) {
+                displayMode = d[i];
+                break;
+            }
+        }
+
+        Display.setDisplayMode(displayMode);
         Display.setTitle("Final Project - Team Hippity Hoppity");
         Display.create();
     }
 
     /**
-     * Method: initGL()
-     * Purpose: Starts up and uses GL for the background of the
+     * Method: initGL() Purpose: Starts up and uses GL for the background of the
      * display.
      */
     private void initGL() {
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-
-        glOrtho(0.0, 640.0, 0.0, 480.0, 1.0, -1.0);
-
+        GLU.gluPerspective(100.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
 
+    private void gameLoop() {
+        camera = new FPCameraController(0f, 0f, 0f);
+        float dx, dy, dt, lastTime;
+        long time;
+        float mouseSens = 0.09f;
+        float movementSpeed = 0.35f;
+
+        Mouse.setGrabbed(true);
+        while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            time = Sys.getTime();
+            lastTime = time;
+
+            dx = Mouse.getDX(); //get dis of mouse movement for x & y
+            dy = Mouse.getDY();
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+                camera.walkFowards(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+                camera.strafeLeft(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+                camera.walkBackwards(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+                camera.strafeRight(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+                camera.moveUp(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                camera.moveDown(movementSpeed);
+            }
+            glLoadIdentity();
+
+            camera.lookThrough();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            //draw here
+            render();
+
+            //Draw buffer to screen
+            Display.update();
+            Display.sync(60);
+
+        }
+        Display.destroy();
+    }
+
     /**
-     * Method: render()
-     * Purpose: Renders the objects for the display. 
-     * NOTE: Use keys 1, 2, and 3 to change the color of the shapes!
+     * Method: render() Purpose: Renders the objects for the display.
      */
     private void render() {
-        while (!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            try {
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                glLoadIdentity();
-
-                glPointSize(1);
-
-                glBegin(GL_POINTS);
-
-
+        try {
+                glBegin(GL_QUADS);
+                glColor3f(1.0f, 0.0f, 1.0f);
+                glVertex3f(1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, -1.0f, -1.0f);
+                glVertex3f(-1.0f, 1.0f, -1.0f);
+                glVertex3f(1.0f, 1.0f, -1.0f);
                 glEnd();
-
-                Display.update();
-                Display.sync(60);
 
             } catch (Exception e) {
 
             }
-        }
-        Display.destroy();
     }
+
 }
