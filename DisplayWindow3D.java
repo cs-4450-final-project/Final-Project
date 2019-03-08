@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/7/19
+ * Date last modified: 3/8/19
  *
  * Purpose: To display the screen.
  ********************************************************************************* */
