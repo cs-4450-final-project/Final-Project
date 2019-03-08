@@ -1,11 +1,10 @@
-
 /** ********************************************************************************
  * File: FPCameraController.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/7/19
+ * Date last modified: 3/8/19
  *
  * Purpose: Controls the camera in a first person space.
  ********************************************************************************* */
@@ -46,7 +45,7 @@ public class FPCameraController {
         float zOffset = distance * ((float) Math.cos(Math.toRadians(yaw)));
 
         position.setX(position.getX() - xOffset);
-        position.setZ(position.getY() + zOffset);
+        position.setZ(position.getZ() + zOffset);
     }
 
     public void walkBackwards(float distance) {
@@ -54,7 +53,7 @@ public class FPCameraController {
         float zOffset = distance * ((float) Math.cos(Math.toRadians(yaw)));
 
         position.setX(position.getX() + xOffset);
-        position.setZ(position.getY() - zOffset);
+        position.setZ(position.getZ() - zOffset);
     }
 
     public void strafeLeft(float distance) {
@@ -62,7 +61,7 @@ public class FPCameraController {
         float zOffset = distance * ((float) Math.cos(Math.toRadians(yaw - 90)));
 
         position.setX(position.getX() - xOffset);
-        position.setZ(position.getY() + zOffset);
+        position.setZ(position.getZ() + zOffset);
     }
 
     public void strafeRight(float distance) {
@@ -70,7 +69,7 @@ public class FPCameraController {
         float zOffset = distance * ((float) Math.cos(Math.toRadians(yaw + 90)));
 
         position.setX(position.getX() - xOffset);
-        position.setZ(position.getY() + zOffset);
+        position.setZ(position.getZ() + zOffset);
     }
 
     public void moveUp(float distance) {
