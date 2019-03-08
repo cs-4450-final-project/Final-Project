@@ -9,6 +9,8 @@
  *
  * Purpose: To display the screen.
  ********************************************************************************* */
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.input.Keyboard;
@@ -22,9 +24,51 @@ public class DisplayWindow3D {
 
     private FPCameraController camera;
     private DisplayMode displayMode;
+    private ArrayList<Polyhedron> shapes;
 
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
+        shapes = new ArrayList<>();
+        Polyhedron newShape = new Polyhedron();
+        float sideLength = 0.5f;
+        Polygon newSide = new Polygon(1.0f, 0.0f, 0.0f);    //side 1, top
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(0.0f, 1.0f, 0.0f);    //side 2, bottom
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(0.0f, 0.0f, 1.0f);    //side 3, front
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(1.0f, 1.0f, 0.0f);    //side 4, back
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(1.0f, 0.0f, 1.0f);    //side 5, left
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(-sideLength, -sideLength, sideLength));
+        newShape.addSide(newSide);
+        newSide = new Polygon(0.0f, 1.0f, 1.0f);    //side 6, right
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, -sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, sideLength));
+        newSide.addPoint(new Vector3Float(sideLength, -sideLength, -sideLength));
+        newShape.addSide(newSide);
+        shapes.add(newShape);
+
     }
 
     /**
@@ -81,7 +125,8 @@ public class DisplayWindow3D {
         camera = new FPCameraController(0f, 0f, 0f);
         float dx, dy, dt, lastTime;
         long time;
-        float mouseSens = 0.09f;
+        float mouseXZSens = 0.10f;
+        float mouseYSens = 0.10f;
         float movementSpeed = 0.35f;
 
         Mouse.setGrabbed(true);
@@ -115,6 +160,8 @@ public class DisplayWindow3D {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
                 camera.moveDown(movementSpeed);
             }
+            camera.yaw(dx * mouseXZSens);
+            camera.pitch(dy * mouseYSens);
             glLoadIdentity();
 
             camera.lookThrough();
@@ -133,19 +180,40 @@ public class DisplayWindow3D {
     /**
      * Method: render() Purpose: Renders the objects for the display.
      */
+    private void drawPolyhedron(Polyhedron p) {
+        ArrayList<Polygon> sides = p.getSides();
+        for (Iterator<Polygon> iterator = sides.iterator(); iterator.hasNext();) {
+            drawPolygon(iterator.next());
+        }
+    }
+
+    private void drawPolygon(Polygon p) {
+        ArrayList<Vector3Float> s = p.getPoints();
+        glColor3f(p.getRed(), p.getGreen(), p.getBlue());
+        glBegin(GL_POLYGON);
+        for (Iterator<Vector3Float> iterator = s.iterator(); iterator.hasNext();) { //draw each polygon, then fill it appropriately. Changes the color before drawing and doesn't change it until the next polygon
+            Vector3Float f = iterator.next();
+            glVertex3f(f.getX(), f.getY(), f.getZ());
+        }
+        glEnd();
+    }
+
     private void render() {
         try {
-                glBegin(GL_QUADS);
-                glColor3f(1.0f, 0.0f, 1.0f);
-                glVertex3f(1.0f, -1.0f, -1.0f);
-                glVertex3f(-1.0f, -1.0f, -1.0f);
-                glVertex3f(-1.0f, 1.0f, -1.0f);
-                glVertex3f(1.0f, 1.0f, -1.0f);
-                glEnd();
-
-            } catch (Exception e) {
-
+            for(Iterator<Polyhedron> iterator = shapes.iterator(); iterator.hasNext();){
+                drawPolyhedron(iterator.next());
             }
+//            glBegin(GL_QUADS);
+//            glColor3f(1.0f, 0.0f, 1.0f);
+//            glVertex3f(1.0f, -1.0f, -1.0f);
+//            glVertex3f(-1.0f, -1.0f, -1.0f);
+//            glVertex3f(-1.0f, 1.0f, -1.0f);
+//            glVertex3f(1.0f, 1.0f, -1.0f);
+//            glEnd();
+
+        } catch (Exception e) {
+
+        }
     }
 
 }
