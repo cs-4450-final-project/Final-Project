@@ -7,8 +7,9 @@
  * Assignment: Final Project
  * Date last modified: 3/8/19
  *
- * Purpose: To display the screen.
+ * Purpose: To display the screen and its objects.
  ********************************************************************************* */
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.lwjgl.opengl.DisplayMode;
@@ -30,6 +31,11 @@ public class DisplayWindow3D {
         TOP, BOTTOM, LEFT, RIGHT, BACK, FRONT;
     }
 
+    /**
+     * Constructor: DisplayWindow3D()
+     * Purpose: Initializes the camera, list of shapes, and initializes the objects
+     * to be drawn.
+     */
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
         shapes = new ArrayList<>();
@@ -37,11 +43,26 @@ public class DisplayWindow3D {
         initializeObjects();
     }
     
+    /**
+     * Method: initializeObjects()
+     * Purpose: Create all objects here.
+     */
     private void initializeObjects() {
         drawCube(0, 0, 0, 0.5f);
         drawCube(2, 1, 1, 0.5f);
     }
 
+    /**
+     * Method: createSide(Vector3f location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side)
+     * Purpose: Create a side for a polygon.
+     * @param location The location on the coordinate axis. Represents (x, y, z).
+     * @param newCube The cube that these sides are going to combine into.
+     * @param sideLength The length of the side for the cube.
+     * @param r The r value for the color.
+     * @param b The b value for the color.
+     * @param g The g value for the color.
+     * @param side The Enum side that checks if it's for the top, bottom, left, right, front, or back.
+     */
     private void createSide(Vector3f location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side) {
         Polygon newSide = new Polygon(r, b, g);
         float x = location.getX();
@@ -94,6 +115,14 @@ public class DisplayWindow3D {
         newCube.addSide(newSide);
     }
 
+    /**
+     * Method: drawCube(float x, float y, float z, float sideLength) 
+     * Purpose: Draws the cubes using the createSide() methods.
+     * @param x The x value of the cube.
+     * @param y The y value of the cube.
+     * @param z The z value of the cube.
+     * @param sideLength The length of the sides of the cube.
+     */
     private void drawCube(float x, float y, float z, float sideLength) {
         Polyhedron newCube = new Polyhedron();
         Vector3f location = new Vector3f(x, y, z);
@@ -109,7 +138,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: start() Purpose: To create, initialize GL, and render the window
+     * Method: start() 
+     * Purpose: To create, initialize GL, and render the window
      * of the display.
      */
     public void start() {
@@ -123,7 +153,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: createWindow() Purpose: It creates the window and its title.
+     * Method: createWindow() 
+     * Purpose: It creates the window and its title.
      * Default size for program 1 is 640x480.
      *
      * @throws Exception
@@ -146,7 +177,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: initGL() Purpose: Starts up and uses GL for the background of the
+     * Method: initGL() 
+     * Purpose: Starts up and uses GL for the background of the
      * display.
      */
     private void initGL() {
@@ -158,6 +190,10 @@ public class DisplayWindow3D {
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     }
 
+    /**
+     * Method: gameLoop()
+     * Purpose: For the camera controls.
+     */
     private void gameLoop() {
         camera = new FPCameraController(0f, 0f, 0f);
         float dx, dy, dt, lastTime;
@@ -215,7 +251,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: render() Purpose: Renders the objects for the display.
+     * Method: render() 
+     * Purpose: Renders the objects for the display.
      */
     private void drawPolyhedron(Polyhedron p) {
         ArrayList<Polygon> sides = p.getSides();
@@ -224,6 +261,11 @@ public class DisplayWindow3D {
         }
     }
 
+    /**
+     * Method: drawPolygon(Polygon p)
+     * Purpose: Draws the polygon.
+     * @param p The polygon to draw.
+     */
     private void drawPolygon(Polygon p) {
         ArrayList<Vector3f> s = p.getPoints();
         glColor3f(p.getRed(), p.getGreen(), p.getBlue());
@@ -235,6 +277,10 @@ public class DisplayWindow3D {
         glEnd();
     }
 
+    /**
+     * Method: render()
+     * Purpose: Renders all objects.
+     */
     private void render() {
         try {
 
