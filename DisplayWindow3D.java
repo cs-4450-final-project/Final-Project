@@ -131,7 +131,7 @@ public class DisplayWindow3D {
         createSide(location, newCube, sideLength, 0f, 1f, 0f, Side.BOTTOM);
         createSide(location, newCube, sideLength, 1f, 0f, 1f, Side.LEFT);
         createSide(location, newCube, sideLength, 1f, 1f, 0f, Side.RIGHT);
-        createSide(location, newCube, sideLength, 1f, 0f, 1f, Side.FRONT);
+        createSide(location, newCube, sideLength, 1f, 0f, 0.5f, Side.FRONT);
         createSide(location, newCube, sideLength, 0f, 1f, 1f, Side.BACK);
 
         shapes.add(newCube);
@@ -195,8 +195,7 @@ public class DisplayWindow3D {
      * Purpose: For the camera controls.
      */
     private void gameLoop() {
-        camera = new FPCameraController(0f, 0f, 0f);
-        float dx, dy, dt, lastTime;
+        float dx, dy;
         long time;
         float mouseXZSens = 0.10f;
         float mouseYSens = 0.10f;
@@ -205,7 +204,6 @@ public class DisplayWindow3D {
         Mouse.setGrabbed(true);
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             time = Sys.getTime();
-            lastTime = time;
 
             dx = Mouse.getDX(); //get dis of mouse movement for x & y
             dy = Mouse.getDY();
