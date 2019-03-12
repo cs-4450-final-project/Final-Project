@@ -1,3 +1,4 @@
+
 /** ********************************************************************************
  * File: Polygon.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Polygon {
-    
     private ArrayList<Vector3f> vertexPoints;
     private float red, green, blue;
 
@@ -44,6 +44,7 @@ public class Polygon {
      * @param blue The b value of the color.
      * @param vertexPoints A list of points that represent the shape's vertices.
      */
+
     Polygon(float red, float green, float blue, ArrayList<Vector3f> vertexPoints) {
         this.red = red;
         this.green = green;
@@ -119,6 +120,7 @@ public class Polygon {
      * Purpose: Sets the vertices to a new list of vertices.
      * @param vertexPoints The list of vertices to set the current one to.
      */
+
     public void setPoints(ArrayList<Vector3f> vertexPoints) {
         this.vertexPoints = vertexPoints;
     }

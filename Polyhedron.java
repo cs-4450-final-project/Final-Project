@@ -9,7 +9,6 @@
  *
  * Purpose: Represents a 3D shape. Holds it's color values and sides.
  ********************************************************************************* */
-
 import java.util.ArrayList;
 
 public class Polyhedron {
