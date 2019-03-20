@@ -34,7 +34,7 @@ public class Block {
         /*
         Grass 0, Dirt 1, Stone 2, Water 3, Bedrock 4
          */
-        GRASS, DIRT, STONE, WATER, BEDROCK;
+        GRASS, DIRT, STONE, WATER, BEDROCK, DEFAULT;
 
         private int blockID;
 
@@ -58,10 +58,11 @@ public class Block {
                     return WATER;
                 case 4:
                     return BEDROCK;
+                case -1:
+                    return DEFAULT;
                 default:
-                    return DIRT;
+                    return DEFAULT;
             }
-
         }
     }
 
@@ -85,8 +86,7 @@ public class Block {
      * @return A float array of the {x, y, z} values.
      */
     public float[] getCoords() {
-        float[] result = {x, y, z};
-        return result;
+        return new float[]{x, y, z};
     }
 
     /**
