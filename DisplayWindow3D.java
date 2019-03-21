@@ -5,11 +5,10 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/8/19
+ * Date last modified: 3/20/19
  *
  * Purpose: To display the screen and its objects.
  ********************************************************************************* */
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.lwjgl.opengl.DisplayMode;
@@ -26,26 +25,27 @@ public class DisplayWindow3D {
     private FPCameraController camera;
     private DisplayMode displayMode;
     private ArrayList<Polyhedron> shapes;
+    private Chunk chunk;
 
     private enum Side {
         TOP, BOTTOM, LEFT, RIGHT, BACK, FRONT;
     }
 
     /**
-     * Constructor: DisplayWindow3D()
-     * Purpose: Initializes the camera, list of shapes, and initializes the objects
-     * to be drawn.
+     * Constructor: DisplayWindow3D() Purpose: Initializes the camera, list of
+     * shapes, and initializes the objects to be drawn.
      */
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
         shapes = new ArrayList<>();
+        
+        chunk = new Chunk(0, 0, 0); //create a new chunk
 
         initializeObjects();
     }
-    
+
     /**
-     * Method: initializeObjects()
-     * Purpose: Create all objects here.
+     * Method: initializeObjects() Purpose: Create all objects here.
      */
     private void initializeObjects() {
         drawCube(0, 0, 0, 0.5f);
@@ -53,15 +53,19 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: createSide(Vector3f location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side)
-     * Purpose: Create a side for a polygon.
-     * @param location The location on the coordinate axis. Represents (x, y, z).
+     * Method: createSide(Vector3f location, Polyhedron newCube, float
+     * sideLength, float r, float b, float g, Side side) Purpose: Create a side
+     * for a polygon.
+     *
+     * @param location The location on the coordinate axis. Represents (x, y,
+     * z).
      * @param newCube The cube that these sides are going to combine into.
      * @param sideLength The length of the side for the cube.
      * @param r The r value for the color.
      * @param b The b value for the color.
      * @param g The g value for the color.
-     * @param side The Enum side that checks if it's for the top, bottom, left, right, front, or back.
+     * @param side The Enum side that checks if it's for the top, bottom, left,
+     * right, front, or back.
      */
     private void createSide(Vector3f location, Polyhedron newCube, float sideLength, float r, float b, float g, Side side) {
         Polygon newSide = new Polygon(r, b, g);
@@ -116,8 +120,9 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: drawCube(float x, float y, float z, float sideLength) 
-     * Purpose: Draws the cubes using the createSide() methods.
+     * Method: drawCube(float x, float y, float z, float sideLength) Purpose:
+     * Draws the cubes using the createSide() methods.
+     *
      * @param x The x value of the cube.
      * @param y The y value of the cube.
      * @param z The z value of the cube.
@@ -138,8 +143,7 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: start() 
-     * Purpose: To create, initialize GL, and render the window
+     * Method: start() Purpose: To create, initialize GL, and render the window
      * of the display.
      */
     public void start() {
@@ -153,8 +157,7 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: createWindow() 
-     * Purpose: It creates the window and its title.
+     * Method: createWindow() Purpose: It creates the window and its title.
      * Default size for program 1 is 640x480.
      *
      * @throws Exception
@@ -177,8 +180,7 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: initGL() 
-     * Purpose: Starts up and uses GL for the background of the
+     * Method: initGL() Purpose: Starts up and uses GL for the background of the
      * display.
      */
     private void initGL() {
@@ -188,11 +190,14 @@ public class DisplayWindow3D {
         GLU.gluPerspective(100.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+        
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glEnable(GL_DEPTH_TEST);
     }
 
     /**
-     * Method: gameLoop()
-     * Purpose: For the camera controls.
+     * Method: gameLoop() Purpose: For the camera controls.
      */
     private void gameLoop() {
         float dx, dy;
@@ -238,7 +243,7 @@ public class DisplayWindow3D {
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //draw here
-            render();
+            chunk.render();
 
             //Draw buffer to screen
             Display.update();
@@ -249,8 +254,7 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: render() 
-     * Purpose: Renders the objects for the display.
+     * Method: render() Purpose: Renders the objects for the display.
      */
     private void drawPolyhedron(Polyhedron p) {
         ArrayList<Polygon> sides = p.getSides();
@@ -260,8 +264,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: drawPolygon(Polygon p)
-     * Purpose: Draws the polygon.
+     * Method: drawPolygon(Polygon p) Purpose: Draws the polygon.
+     *
      * @param p The polygon to draw.
      */
     private void drawPolygon(Polygon p) {
@@ -276,15 +280,14 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: render()
-     * Purpose: Renders all objects.
+     * Method: render() Purpose: Renders all objects.
      */
     private void render() {
         try {
 
-            for (Iterator<Polyhedron> iterator = shapes.iterator(); iterator.hasNext();) {
-                drawPolyhedron(iterator.next());
-            }
+//            for (Iterator<Polyhedron> iterator = shapes.iterator(); iterator.hasNext();) {
+//                drawPolyhedron(iterator.next());
+//            }
 
         } catch (Exception e) {
 
