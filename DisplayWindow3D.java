@@ -39,8 +39,6 @@ public class DisplayWindow3D {
         camera = new FPCameraController(0f, 0f, 0f);
         shapes = new ArrayList<>();
         
-        chunk = new Chunk(0, 0, 0); //create a new chunk
-
         initializeObjects();
     }
 
@@ -200,6 +198,8 @@ public class DisplayWindow3D {
      * Method: gameLoop() Purpose: For the camera controls.
      */
     private void gameLoop() {
+        chunk = new Chunk(0, 0, 0);
+        
         float dx, dy;
         long time;
         float mouseXZSens = 0.10f;
