@@ -222,6 +222,14 @@ public class Chunk {
         return new float[]{1, 1, 1};
     }
 
+    /**
+     * Method: createTexCube(float x, float y, Block block)
+     * Purpose: Applies the texture to the cube based on what block type it is.
+     * @param x The x value of the cube.
+     * @param y The y value of the cube.
+     * @param block The type of block it is.
+     * @return An array of coordinates needed to texture the cube.
+     */
     private float[] createTexCube(float x, float y, Block block) {
         float offset = (1024f / 16) / 1024f;
         switch (block.getID()) {
@@ -242,6 +250,14 @@ public class Chunk {
         }
     }
 
+    /**
+     * Method: grassTexture(float x, float y, float offset) 
+     * Purpose: Apply the grass texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] grassTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -276,6 +292,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: sandTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] sandTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -310,6 +334,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: waterTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] waterTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -344,6 +376,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: dirtTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] dirtTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -378,6 +418,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: stoneTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] stoneTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -412,6 +460,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: bedrockTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] bedrockTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
@@ -446,6 +502,14 @@ public class Chunk {
             x + offset * 3, y + offset * 1};
     }
 
+    /**
+     * Method: defaultTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] defaultTexture(float x, float y, float offset) {
         return new float[]{
             // BOTTOM QUAD(DOWN=+Y)
