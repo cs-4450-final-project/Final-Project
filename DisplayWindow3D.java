@@ -1,3 +1,4 @@
+
 /** ********************************************************************************
  * File: DisplayWindow3D.java
  * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
@@ -28,7 +29,7 @@ public class DisplayWindow3D {
      */
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
-        
+
     }
 
     /**
@@ -79,10 +80,13 @@ public class DisplayWindow3D {
         GLU.gluPerspective(100.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-        
+
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_COLOR_ARRAY);
         glEnable(GL_DEPTH_TEST);
+
+        glEnable(GL_TEXTURE_2D);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     }
 
     /**
@@ -90,7 +94,7 @@ public class DisplayWindow3D {
      */
     private void gameLoop() {
         chunk = new Chunk(0, 0, 0);
-        
+
         float dx, dy;
         long time;
         float mouseXZSens = 0.10f;
