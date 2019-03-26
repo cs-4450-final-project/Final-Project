@@ -22,10 +22,6 @@ public class DisplayWindow3D {
     private DisplayMode displayMode;
     private Chunk chunk;
 
-    private enum Side {
-        TOP, BOTTOM, LEFT, RIGHT, BACK, FRONT;
-    }
-
     /**
      * Constructor: DisplayWindow3D() Purpose: Initializes the camera, list of
      * shapes, and initializes the objects to be drawn.
@@ -33,7 +29,6 @@ public class DisplayWindow3D {
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, 0f, 0f);
         
-//        initializeObjects();
     }
 
     /**
@@ -61,9 +56,9 @@ public class DisplayWindow3D {
 
         DisplayMode d[] = Display.getAvailableDisplayModes();
 
-        for (int i = 0; i < d.length; i++) {
-            if (d[i].getWidth() == 640 && d[i].getHeight() == 480 && d[i].getBitsPerPixel() == 32) {
-                displayMode = d[i];
+        for (DisplayMode d1 : d) {
+            if (d1.getWidth() == 640 && d1.getHeight() == 480 && d1.getBitsPerPixel() == 32) {
+                displayMode = d1;
                 break;
             }
         }
