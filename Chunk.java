@@ -116,6 +116,9 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public void rebuildMesh(float startX, float startY, float startZ) {
+        SimplexNoise noise = new SimplexNoise(9, 0.5, 9);
+        float maxHeight = 0;
+
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
 
@@ -127,6 +130,15 @@ public class Chunk {
 
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
+//                
+//                int i=(int)(xStart+x*((XEnd-xStart)/xResolution));
+//                
+//                maxHeight = (startY+ (int)(100*noise.getNoise(x,y,z)) * CUBE_LENGTH);
+
+//                for (float y = 0; y <= maxHeight; y++) {
+//                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
+//                            (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
+
                 for (float y = 0; y < CHUNK_SIZE; y++) {
                     vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
                     vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
