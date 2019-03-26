@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/20/19
+ * Date last modified: 3/26/19
  *
  * Purpose: Represents a single block. Holds its type, state, and location.
  ********************************************************************************* */
@@ -34,7 +34,7 @@ public class Block {
         /*
         Grass 0, Dirt 1, Stone 2, Water 3, Bedrock 4
          */
-        GRASS, DIRT, STONE, WATER, BEDROCK, DEFAULT;
+        GRASS, SAND, DIRT, STONE, WATER, BEDROCK, DEFAULT;
 
         private int blockID;
 
@@ -51,15 +51,15 @@ public class Block {
                 case 0:
                     return GRASS;
                 case 1:
-                    return DIRT;
+                    return SAND;
                 case 2:
-                    return STONE;
-                case 3:
                     return WATER;
+                case 3:
+                    return DIRT;
                 case 4:
+                    return STONE;
+                case 5:
                     return BEDROCK;
-                case -1:
-                    return DEFAULT;
                 default:
                     return DEFAULT;
             }

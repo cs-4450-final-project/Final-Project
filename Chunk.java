@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/20/19
+ * Date last modified: 3/26/19
  *
  * Purpose: Represents a chunk, which will hold a number of blocks at once.
  ********************************************************************************* */
@@ -35,17 +35,24 @@ public class Chunk {
      */
     public Chunk(int startX, int startY, int startZ) {
         rand = new Random();
+        float currFloat = rand.nextFloat();
 
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
-        for (int x = 0; x < CHUNK_SIZE; x++) {
+        for (int x = 0; x < CHUNK_SIZE; x++) { //grass, sand, water, dirt, stone, bedrock
             for (int y = 0; y < CHUNK_SIZE; y++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
-                    if (rand.nextFloat() > 0.7f) {
+                    if (currFloat < 0.4f) {
                         blocks[x][y][z] = new Block(Block.BlockType.GRASS);
-                    } else if (rand.nextFloat() > 0.4f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.DIRT);
-                    } else if (rand.nextFloat() > 0.2f) {
+                    } else if (0.4f <= currFloat && currFloat < 0.5f) {
+                        blocks[x][y][z] = new Block(Block.BlockType.SAND);
+                    } else if (0.5f <= currFloat && currFloat < 0.6f) {
                         blocks[x][y][z] = new Block(Block.BlockType.WATER);
+                    } else if (0.6f <= currFloat && currFloat < 0.7f) {
+                        blocks[x][y][z] = new Block(Block.BlockType.DIRT);
+                    } else if (0.7f <= currFloat && currFloat < 0.8f) {
+                        blocks[x][y][z] = new Block(Block.BlockType.STONE);
+                    } else if (0.8f <= currFloat && currFloat < 1) {
+                        blocks[x][y][z] = new Block(Block.BlockType.BEDROCK);
                     } else {
                         blocks[x][y][z] = new Block(Block.BlockType.DEFAULT);
                     }
@@ -176,14 +183,21 @@ public class Chunk {
      * @return The color of the cube as a float[] of rgb values.
      */
     private float[] getCubeColor(Block block) {
-        switch (block.getID()) {
-            case 1:
+        switch (block.getID()) { //grass, sand, water, dirt, stone, bedrock
+            case 0: //grass
                 return new float[]{0, 1, 0};
-            case 2:
-                return new float[]{1, 0.5f, 0};
-            case 3:
+            case 1: //sand
+                return new float[]{0.1f, 0, 0};
+            case 2: //water
+                return new float[]{0.1f, 0.1f, 0.1f};
+            case 3: //dirt
                 return new float[]{0, 0f, 1f};
+            case 4: //stone
+                return new float[]{1, 0, 1};
+            case 5: //bedrock
+                return new float[]{1, 1, 1};
+            default:
+                return new float[]{0, 0, 0};
         }
-        return new float[]{1, 1, 1};
     }
 }
