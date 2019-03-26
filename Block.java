@@ -24,6 +24,32 @@ public class Block {
      */
     public Block(BlockType blockType) {
         this.blockType = blockType;
+        
+        if(blockType != null) switch (blockType) {
+            case GRASS:
+                blockType.setBlockID(0);
+                break;
+            case SAND:
+                blockType.setBlockID(1);
+                break;
+            case WATER:
+                blockType.setBlockID(2);
+                break;
+            case DIRT:
+                blockType.setBlockID(3);
+                break;
+            case STONE:
+                blockType.setBlockID(4);
+                break;
+            case BEDROCK:
+                blockType.setBlockID(1);
+                break;
+            case DEFAULT:
+                blockType.setBlockID(-1);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -31,9 +57,6 @@ public class Block {
      * block id;
      */
     public enum BlockType {
-        /*
-        Grass 0, Dirt 1, Stone 2, Water 3, Bedrock 4
-         */
         GRASS, SAND, DIRT, STONE, WATER, BEDROCK, DEFAULT;
 
         private int blockID;

@@ -15,6 +15,10 @@ import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
 public class Chunk {
 
     static final int CHUNK_SIZE = 30;
@@ -25,6 +29,9 @@ public class Chunk {
     private int startX, startY, startZ;
     private Random rand;
 
+    private int vboTextureHandle;
+    private Texture texture;
+
     /**
      * Constructor: Creates the array of chunks with a random number of each of
      * the block types. Sets up the glGenBuffers and creates a mesh.
@@ -34,13 +41,18 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public Chunk(int startX, int startY, int startZ) {
+        //try catch to find img
+        //texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain.png"));
+        //note: (1024/16)/1024 for one block texture
+        
         rand = new Random();
-        float currFloat = rand.nextFloat();
+        float currFloat;
 
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
         for (int x = 0; x < CHUNK_SIZE; x++) { //grass, sand, water, dirt, stone, bedrock
             for (int y = 0; y < CHUNK_SIZE; y++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
+                    currFloat = rand.nextFloat();                    
                     if (currFloat < 0.4f) {
                         blocks[x][y][z] = new Block(Block.BlockType.GRASS);
                     } else if (0.4f <= currFloat && currFloat < 0.5f) {
@@ -72,13 +84,17 @@ public class Chunk {
      */
     public void render() {
         glPushMatrix();
-        glPushMatrix(); //TODO: 2 push matrix?
+//        glPushMatrix(); //TODO: 2 push matrix?
 
         glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
         glVertexPointer(3, GL_FLOAT, 0, 0L);
 
         glBindBuffer(GL_ARRAY_BUFFER, vboColorHandle);
         glColorPointer(3, GL_FLOAT, 0, 0L);
+
+//        glBindBuffer(GL_ARRAY_BUFFER, vboTextureHandle);
+//        glBindTexture(GL_TEXTURE_2D, 1);
+//        glTexCoordPointer(2,)
 
         glDrawArrays(GL_QUADS, 0, CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 24);
         glPopMatrix();
@@ -95,21 +111,27 @@ public class Chunk {
     public void rebuildMesh(float startX, float startY, float startZ) {
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
+        
+        vboTextureHandle = glGenBuffers();
 
         FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
-
         FloatBuffer VertexColorData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+//       FloatBuffer
+        
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
                 for (float y = 0; y < CHUNK_SIZE; y++) {
                     VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
                     VertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
+//                    VertexTextureData.put(createTexCube)
                 }
             }
         }
         VertexColorData.flip();
         VertexPositionData.flip();
 
+        //glBind buffers
+        
         glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
         glBufferData(GL_ARRAY_BUFFER, VertexPositionData,
                 GL_STATIC_DRAW);
@@ -187,17 +209,17 @@ public class Chunk {
             case 0: //grass
                 return new float[]{0, 1, 0};
             case 1: //sand
-                return new float[]{0.1f, 0, 0};
+                return new float[]{0.435294f, 0.258824f, 0.258824f};
             case 2: //water
-                return new float[]{0.1f, 0.1f, 0.1f};
+                return new float[]{0, 0, 1};
             case 3: //dirt
-                return new float[]{0, 0f, 1f};
+                return new float[]{0.647059f, 0.164706f, 0.164706f};
             case 4: //stone
-                return new float[]{1, 0, 1};
+                return new float[]{0.658824f, 0.658824f, 0.658824f};
             case 5: //bedrock
+                return new float[]{0.5f, 0.5f, 0.5f};
+            default: 
                 return new float[]{1, 1, 1};
-            default:
-                return new float[]{0, 0, 0};
         }
     }
 }
