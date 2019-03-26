@@ -42,7 +42,7 @@ public class Block {
                 blockType.setBlockID(4);
                 break;
             case BEDROCK:
-                blockType.setBlockID(1);
+                blockType.setBlockID(5);
                 break;
             case DEFAULT:
                 blockType.setBlockID(-1);

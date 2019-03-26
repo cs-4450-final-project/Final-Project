@@ -9,6 +9,7 @@
  *
  * Purpose: Represents a chunk, which will hold a number of blocks at once.
  ********************************************************************************* */
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Random;
 import org.lwjgl.BufferUtils;
@@ -41,18 +42,22 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public Chunk(int startX, int startY, int startZ) {
-        //try catch to find img
-        //texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain.png"));
-        //note: (1024/16)/1024 for one block texture
-        
+        try {
+            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain.png"));
+            System.out.println("Texture loaded!");
+        } catch (IOException e) {
+            System.out.print("Texture cannot be found!");
+        }
+
         rand = new Random();
         float currFloat;
 
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+
         for (int x = 0; x < CHUNK_SIZE; x++) { //grass, sand, water, dirt, stone, bedrock
             for (int y = 0; y < CHUNK_SIZE; y++) {
                 for (int z = 0; z < CHUNK_SIZE; z++) {
-                    currFloat = rand.nextFloat();                    
+                    currFloat = rand.nextFloat();
                     if (currFloat < 0.4f) {
                         blocks[x][y][z] = new Block(Block.BlockType.GRASS);
                     } else if (0.4f <= currFloat && currFloat < 0.5f) {
@@ -73,6 +78,8 @@ public class Chunk {
         }
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
+        vboTextureHandle = glGenBuffers(); //along with our other VBOs
+
         this.startX = startX;
         this.startY = startY;
         this.startZ = startZ;
@@ -92,9 +99,9 @@ public class Chunk {
         glBindBuffer(GL_ARRAY_BUFFER, vboColorHandle);
         glColorPointer(3, GL_FLOAT, 0, 0L);
 
-//        glBindBuffer(GL_ARRAY_BUFFER, vboTextureHandle);
-//        glBindTexture(GL_TEXTURE_2D, 1);
-//        glTexCoordPointer(2,)
+        glBindBuffer(GL_ARRAY_BUFFER, vboTextureHandle);
+        glBindTexture(GL_TEXTURE_2D, 1);
+        glTexCoordPointer(2, GL_FLOAT, 0, 0L);
 
         glDrawArrays(GL_QUADS, 0, CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 24);
         glPopMatrix();
@@ -111,35 +118,42 @@ public class Chunk {
     public void rebuildMesh(float startX, float startY, float startZ) {
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
-        
+
         vboTextureHandle = glGenBuffers();
 
-        FloatBuffer VertexPositionData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
-        FloatBuffer VertexColorData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
-//       FloatBuffer
-        
+        FloatBuffer vertexPositionData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+        FloatBuffer vertexColorData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+        FloatBuffer vertexTextureData = BufferUtils.createFloatBuffer((CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE) * 6 * 12);
+
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
                 for (float y = 0; y < CHUNK_SIZE; y++) {
-                    VertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
-                    VertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
-//                    VertexTextureData.put(createTexCube)
+                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
+                    vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
+                    vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
                 }
             }
         }
-        VertexColorData.flip();
-        VertexPositionData.flip();
+        vertexColorData.flip();
+        vertexPositionData.flip();
+        vertexTextureData.flip();
 
-        //glBind buffers
-        
+        //for vertices
         glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
-        glBufferData(GL_ARRAY_BUFFER, VertexPositionData,
+        glBufferData(GL_ARRAY_BUFFER, vertexPositionData,
                 GL_STATIC_DRAW);
 
+        //for colors
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, vboColorHandle);
 
-        glBufferData(GL_ARRAY_BUFFER, VertexColorData, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexColorData, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        //for textures
+        glBindBuffer(GL_ARRAY_BUFFER, vboTextureHandle);
+        glBufferData(GL_ARRAY_BUFFER, vertexTextureData,
+                GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
@@ -205,21 +219,264 @@ public class Chunk {
      * @return The color of the cube as a float[] of rgb values.
      */
     private float[] getCubeColor(Block block) {
-        switch (block.getID()) { //grass, sand, water, dirt, stone, bedrock
+        return new float[]{1, 1, 1};
+    }
+
+    private float[] createTexCube(float x, float y, Block block) {
+        float offset = (1024f / 16) / 1024f;
+        switch (block.getID()) {
             case 0: //grass
-                return new float[]{0, 1, 0};
-            case 1: //sand
-                return new float[]{0.435294f, 0.258824f, 0.258824f};
-            case 2: //water
-                return new float[]{0, 0, 1};
-            case 3: //dirt
-                return new float[]{0.647059f, 0.164706f, 0.164706f};
-            case 4: //stone
-                return new float[]{0.658824f, 0.658824f, 0.658824f};
-            case 5: //bedrock
-                return new float[]{0.5f, 0.5f, 0.5f};
-            default: 
-                return new float[]{1, 1, 1};
+                return grassTexture(x, y, offset);
+            case 1:
+                return sandTexture(x, y, offset);
+            case 2:
+                return waterTexture(x, y, offset);
+            case 3:
+                return dirtTexture(x, y, offset);
+            case 4:
+                return stoneTexture(x, y, offset);
+            case 5:
+                return bedrockTexture(x, y, offset);
+            default:
+                return defaultTexture(x, y, offset);
         }
+    }
+
+    private float[] grassTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] sandTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] waterTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] dirtTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] stoneTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] bedrockTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
+    }
+
+    private float[] defaultTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y)
+            x + offset * 3, y + offset * 10,
+            x + offset * 2, y + offset * 10,
+            x + offset * 2, y + offset * 9,
+            x + offset * 3, y + offset * 9,
+            // TOP!
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
+            // FRONT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // BACK QUAD
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            // LEFT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            // RIGHT QUAD
+            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 1};
     }
 }
