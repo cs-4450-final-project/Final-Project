@@ -116,6 +116,10 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public void rebuildMesh(float startX, float startY, float startZ) {
+        double persistance = 0.03;
+        SimplexNoise noise = new SimplexNoise(9, persistance, (int)System.currentTimeMillis());
+        float maxHeight = 0;
+
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
 
@@ -127,11 +131,13 @@ public class Chunk {
 
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
-                for (float y = 0; y < CHUNK_SIZE; y++) {
-                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
-                    vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
-                    vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
-                }
+
+                maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
+                    for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
+                        vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
+                        vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
+                        vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
+                    }
             }
         }
         vertexColorData.flip();
@@ -232,7 +238,7 @@ public class Chunk {
      */
     private float[] createTexCube(float x, float y, Block block) {
         float offset = (512f / 16) / 512f;
-        
+
         switch (block.getID()) {
             case 0: //grass
                 return grassTexture(x, y, offset);

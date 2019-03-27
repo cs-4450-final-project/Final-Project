@@ -42,7 +42,7 @@ public class DisplayWindow3D {
             initGL();
             gameLoop();
         } catch (Exception e) {
-            System.out.println("Window creation failed!");
+            e.printStackTrace();
         }
     }
 
