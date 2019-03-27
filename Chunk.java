@@ -116,8 +116,9 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public void rebuildMesh(float startX, float startY, float startZ) {
-        double persistance = 0.03;
-        SimplexNoise noise = new SimplexNoise(9, persistance, (int) System.currentTimeMillis());
+        double persistance = 0.05;
+        int largestFeature = 200;
+        SimplexNoise noise = new SimplexNoise(largestFeature, persistance, (int) System.currentTimeMillis());
         float maxHeight = 0;
 
         vboColorHandle = glGenBuffers();
@@ -175,16 +176,17 @@ public class Chunk {
     private float[] createCube(float x, float y, float z) {
         int offset = CUBE_LENGTH / 2;
         return new float[]{
-            // TOP QUAD 
-            x + offset, y + offset, z,
-            x - offset, y + offset, z,
-            x - offset, y + offset, z - CUBE_LENGTH,
-            x + offset, y + offset, z - CUBE_LENGTH,
             // BOTTOM QUAD
             x + offset, y - offset, z - CUBE_LENGTH,
             x - offset, y - offset, z - CUBE_LENGTH,
             x - offset, y - offset, z,
             x + offset, y - offset, z,
+            // TOP QUAD 
+            x + offset, y + offset, z,
+            x - offset, y + offset, z,
+            x - offset, y + offset, z - CUBE_LENGTH,
+            x + offset, y + offset, z - CUBE_LENGTH,
+            
             // FRONT QUAD
             x + offset, y + offset, z - CUBE_LENGTH,
             x - offset, y + offset, z - CUBE_LENGTH,
@@ -199,9 +201,13 @@ public class Chunk {
             x - offset, y + offset, z - CUBE_LENGTH,
             x - offset, y + offset, z,
             x - offset, y - offset, z,
-            x - offset, y - offset, z - CUBE_LENGTH,// RIGHT QUADx + offset, y + offset, z, x + offset, y + offset, z -CUBE_LENGTH, x + offset, y -offset, z -CUBE_LENGTH,x + offset, y -offset, z };
-        };
-    }
+            x - offset, y - offset, z - CUBE_LENGTH,
+            // RIGHT QUAD
+            x + offset, y + offset, z, 
+            x + offset, y + offset, z - CUBE_LENGTH, 
+            x + offset, y - offset, z - CUBE_LENGTH, 
+            x + offset, y - offset, z};
+}
 
     /**
      * Method: createCubeVertexCol(float[] CubeColorArray) Purpose: Creates a
@@ -269,7 +275,7 @@ public class Chunk {
      */
     private float[] grassTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 0,1
+            // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 0,1 //
             x + offset * 3, y + offset * 1,
             x + offset * 2, y + offset * 1,
             x + offset * 2, y + offset * 0,
