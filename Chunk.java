@@ -117,7 +117,7 @@ public class Chunk {
      */
     public void rebuildMesh(float startX, float startY, float startZ) {
         double persistance = 0.03;
-        SimplexNoise noise = new SimplexNoise(9, persistance, (int)System.currentTimeMillis());
+        SimplexNoise noise = new SimplexNoise(9, persistance, (int) System.currentTimeMillis());
         float maxHeight = 0;
 
         vboColorHandle = glGenBuffers();
@@ -133,11 +133,11 @@ public class Chunk {
             for (float z = 0; z < CHUNK_SIZE; z++) {
 
                 maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
-                    for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
-                        vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
-                        vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
-                        vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
-                    }
+                for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
+                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
+                    vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
+                    vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
+                }
             }
         }
         vertexColorData.flip();
@@ -229,8 +229,9 @@ public class Chunk {
     }
 
     /**
-     * Method: createTexCube(float x, float y, Block block)
-     * Purpose: Applies the texture to the cube based on what block type it is.
+     * Method: createTexCube(float x, float y, Block block) Purpose: Applies the
+     * texture to the cube based on what block type it is.
+     *
      * @param x The x value of the cube.
      * @param y The y value of the cube.
      * @param block The type of block it is.
@@ -258,15 +259,16 @@ public class Chunk {
     }
 
     /**
-     * Method: grassTexture(float x, float y, float offset) 
-     * Purpose: Apply the grass texture to the block.
+     * Method: grassTexture(float x, float y, float offset) Purpose: Apply the
+     * grass texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
      * @return An array of the coordinates of the texture to apply to the block.
      */
     private float[] grassTexture(float x, float y, float offset) {
-        return new float[]{ 
+        return new float[]{
             // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 0,1
             x + offset * 3, y + offset * 1,
             x + offset * 2, y + offset * 1,
@@ -300,8 +302,9 @@ public class Chunk {
     }
 
     /**
-     * Method: sandTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: sandTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
@@ -342,8 +345,9 @@ public class Chunk {
     }
 
     /**
-     * Method: waterTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: waterTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
@@ -384,8 +388,9 @@ public class Chunk {
     }
 
     /**
-     * Method: dirtTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: dirtTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
@@ -426,8 +431,9 @@ public class Chunk {
     }
 
     /**
-     * Method: stoneTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: stoneTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
@@ -468,8 +474,9 @@ public class Chunk {
     }
 
     /**
-     * Method: bedrockTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: bedrockTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
@@ -510,8 +517,9 @@ public class Chunk {
     }
 
     /**
-     * Method: defaultTexture(float x, float y, float offset) 
-     * Purpose: Apply the texture to the block.
+     * Method: defaultTexture(float x, float y, float offset) Purpose: Apply the
+     * texture to the block.
+     *
      * @param x The x value on the texture to apply to the block.
      * @param y The y value on the texture to apply to the block.
      * @param offset The offset to get the whole texture from.
