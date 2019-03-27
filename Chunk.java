@@ -43,7 +43,7 @@ public class Chunk {
      */
     public Chunk(int startX, int startY, int startZ) {
         try {
-            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain.png"));
+            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain3.png"));
             System.out.println("Texture loaded!");
         } catch (IOException e) {
             System.out.print("Texture cannot be found!");
@@ -116,7 +116,8 @@ public class Chunk {
      * @param startZ The starting z value.
      */
     public void rebuildMesh(float startX, float startY, float startZ) {
-        SimplexNoise noise = new SimplexNoise(9, 0.01, (int)System.currentTimeMillis());
+        double persistance = 0.03;
+        SimplexNoise noise = new SimplexNoise(9, persistance, (int)System.currentTimeMillis());
         float maxHeight = 0;
 
         vboColorHandle = glGenBuffers();
@@ -132,17 +133,11 @@ public class Chunk {
             for (float z = 0; z < CHUNK_SIZE; z++) {
 
                 maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
-
                     for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
                         vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
                         vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
                         vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
                     }
-//                for (float y = 0; y < maxHeight; y++) {
-//                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
-//                    //vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
-//                    //vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
-//                }
             }
         }
         vertexColorData.flip();
@@ -234,7 +229,7 @@ public class Chunk {
     }
 
     private float[] createTexCube(float x, float y, Block block) {
-        float offset = (1024f / 16) / 1024f;
+        float offset = (512f / 16) / 512f;
         switch (block.getID()) {
             case 0: //grass
                 return grassTexture(x, y, offset);
