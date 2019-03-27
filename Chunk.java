@@ -247,242 +247,297 @@ public class Chunk {
                 return defaultTexture(x, y, offset);
         }
     }
-
+/**
+     * Method: grassTexture(float x, float y, float offset) 
+     * Purpose: Apply the grass texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] grassTexture(float x, float y, float offset) {
-        return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
-            // TOP!
+        return new float[]{ 
+            // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 0,1
             x + offset * 3, y + offset * 1,
             x + offset * 2, y + offset * 1,
             x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
-            // FRONT QUAD
+            // TOP! x: 0,1 y: 0,1 OK
+            x + offset * 1, y + offset * 1,
+            x + offset * 0, y + offset * 1,
+            x + offset * 0, y + offset * 0,
+            x + offset * 1, y + offset * 0,
+            // FRONT QUAD x: 3,4 y: 0,1
             x + offset * 3, y + offset * 0,
             x + offset * 4, y + offset * 0,
             x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
-            // BACK QUAD
+            // BACK QUAD x: 3,4 y: 0,1
             x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
             x + offset * 3, y + offset * 0,
             x + offset * 4, y + offset * 0,
-            // LEFT QUAD
+            // LEFT QUAD x: 3,4 y: 0,1
             x + offset * 3, y + offset * 0,
             x + offset * 4, y + offset * 0,
             x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
-            // RIGHT QUAD
+            // RIGHT QUAD x: 3,4 y: 0,1
             x + offset * 3, y + offset * 0,
             x + offset * 4, y + offset * 0,
             x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1};
     }
 
-    private float[] sandTexture(float x, float y, float offset) {
+    /**
+     * Method: sandTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
+    private float[] sandTexture(float x, float y, float offset) { //OK
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
-            // TOP!
-            x + offset * 3, y + offset * 1,
+            // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 1,2
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2,
             x + offset * 2, y + offset * 1,
-            x + offset * 2, y + offset * 0,
-            x + offset * 3, y + offset * 0,
+            x + offset * 3, y + offset * 1,
+            // TOP!
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2,
+            x + offset * 2, y + offset * 1,
+            x + offset * 3, y + offset * 1,
             // FRONT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2,
+            x + offset * 2, y + offset * 1,
             x + offset * 3, y + offset * 1,
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
             // LEFT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2,
             // RIGHT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 2, y + offset * 1,
+            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 2,
+            x + offset * 2, y + offset * 2};
     }
 
+    /**
+     * Method: waterTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] waterTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
+            // BOTTOM QUAD(DOWN=+Y) x: 3,4 y:4,5
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5,
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
             // TOP!
-            x + offset * 3, y + offset * 1,
-            x + offset * 2, y + offset * 1,
-            x + offset * 2, y + offset * 0,
-            x + offset * 3, y + offset * 0,
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5,
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
             // FRONT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5,
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
             // LEFT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5,
             // RIGHT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 3, y + offset * 4,
+            x + offset * 4, y + offset * 4,
+            x + offset * 4, y + offset * 5,
+            x + offset * 3, y + offset * 5};
     }
 
+    /**
+     * Method: dirtTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] dirtTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
+            // BOTTOM QUAD(DOWN=+Y) x: 2,3 y: 0,1
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
+            x + offset * 3, y + offset * 0,
             // TOP!
             x + offset * 3, y + offset * 1,
             x + offset * 2, y + offset * 1,
             x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
             // FRONT QUAD
+            x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
             // LEFT QUAD
+            x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
             x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             // RIGHT QUAD
+            x + offset * 2, y + offset * 0,
             x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 3, y + offset * 1,
+            x + offset * 2, y + offset * 1};
     }
 
+    /**
+     * Method: stoneTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] stoneTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
-            // TOP!
-            x + offset * 3, y + offset * 1,
+            // BOTTOM QUAD(DOWN=+Y) x: 1,2 y: 0,1
             x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1,
+            x + offset * 1, y + offset * 0,
             x + offset * 2, y + offset * 0,
-            x + offset * 3, y + offset * 0,
+            // TOP!
+            x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1,
+            x + offset * 1, y + offset * 0,
+            x + offset * 2, y + offset * 0,
             // FRONT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 0,
+            x + offset * 2, y + offset * 0,
+            x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
+            x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1,
+            x + offset * 1, y + offset * 0,
+            x + offset * 2, y + offset * 0,
             // LEFT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 0,
+            x + offset * 2, y + offset * 0,
+            x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1,
             // RIGHT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 1, y + offset * 0,
+            x + offset * 2, y + offset * 0,
+            x + offset * 2, y + offset * 1,
+            x + offset * 1, y + offset * 1};
     }
 
+    /**
+     * Method: bedrockTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] bedrockTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
-            // TOP!
-            x + offset * 3, y + offset * 1,
+            // BOTTOM QUAD(DOWN=+Y) x: 1,2 y: 1,2
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2,
+            x + offset * 1, y + offset * 1,
             x + offset * 2, y + offset * 1,
-            x + offset * 2, y + offset * 0,
-            x + offset * 3, y + offset * 0,
+            // TOP!
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2,
+            x + offset * 1, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             // FRONT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2,
+            x + offset * 1, y + offset * 1,
+            x + offset * 2, y + offset * 1,
             // LEFT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2,
             // RIGHT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 1, y + offset * 1,
+            x + offset * 2, y + offset * 1,
+            x + offset * 2, y + offset * 2,
+            x + offset * 1, y + offset * 2};
     }
 
+    /**
+     * Method: defaultTexture(float x, float y, float offset) 
+     * Purpose: Apply the texture to the block.
+     * @param x The x value on the texture to apply to the block.
+     * @param y The y value on the texture to apply to the block.
+     * @param offset The offset to get the whole texture from.
+     * @return An array of the coordinates of the texture to apply to the block.
+     */
     private float[] defaultTexture(float x, float y, float offset) {
         return new float[]{
-            // BOTTOM QUAD(DOWN=+Y)
-            x + offset * 3, y + offset * 10,
-            x + offset * 2, y + offset * 10,
-            x + offset * 2, y + offset * 9,
-            x + offset * 3, y + offset * 9,
+            // BOTTOM QUAD(DOWN=+Y)x: 1,2 y: 3,4
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4,
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
             // TOP!
-            x + offset * 3, y + offset * 1,
-            x + offset * 2, y + offset * 1,
-            x + offset * 2, y + offset * 0,
-            x + offset * 3, y + offset * 0,
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4,
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
             // FRONT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4,
             // BACK QUAD
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4,
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
             // LEFT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1,
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4,
             // RIGHT QUAD
-            x + offset * 3, y + offset * 0,
-            x + offset * 4, y + offset * 0,
-            x + offset * 4, y + offset * 1,
-            x + offset * 3, y + offset * 1};
+            x + offset * 1, y + offset * 3,
+            x + offset * 2, y + offset * 3,
+            x + offset * 2, y + offset * 4,
+            x + offset * 1, y + offset * 4};
     }
 }
