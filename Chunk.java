@@ -54,28 +54,6 @@ public class Chunk {
 
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
-        for (int x = 0; x < CHUNK_SIZE; x++) { //grass, sand, water, dirt, stone, bedrock
-            for (int y = 0; y < CHUNK_SIZE; y++) {
-                for (int z = 0; z < CHUNK_SIZE; z++) {
-                    currFloat = rand.nextFloat();
-                    if (currFloat < 0.4f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.GRASS);
-                    } else if (0.4f <= currFloat && currFloat < 0.5f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.SAND);
-                    } else if (0.5f <= currFloat && currFloat < 0.6f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.WATER);
-                    } else if (0.6f <= currFloat && currFloat < 0.7f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.DIRT);
-                    } else if (0.7f <= currFloat && currFloat < 0.8f) {
-                        blocks[x][y][z] = new Block(Block.BlockType.STONE);
-                    } else if (0.8f <= currFloat && currFloat < 1) {
-                        blocks[x][y][z] = new Block(Block.BlockType.BEDROCK);
-                    } else {
-                        blocks[x][y][z] = new Block(Block.BlockType.DEFAULT);
-                    }
-                }
-            }
-        }
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
         vboTextureHandle = glGenBuffers(); //along with our other VBOs
@@ -135,6 +113,26 @@ public class Chunk {
 
                 maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
                 for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
+                    rand = new Random();
+                    float currFloat = rand.nextFloat();
+                    if (y == 0) { //bottom layer
+                        blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.BEDROCK);
+                    } else if ((int)y == (int)maxHeight) { //top layer
+                        if (currFloat < 0.3) {
+                            blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.GRASS);
+                        } else if (currFloat >= 0.3 && currFloat < 0.6) {
+                            blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.SAND);
+                        } else {
+                            blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.WATER);
+                        }
+                    } else { //inner layer
+                        if (currFloat < 0.5) {
+                            blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.STONE);
+                        } else {
+                            blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.DIRT);
+                        }
+                    }
+
                     vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
                     vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
                     vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
@@ -186,7 +184,6 @@ public class Chunk {
             x - offset, y + offset, z,
             x - offset, y + offset, z - CUBE_LENGTH,
             x + offset, y + offset, z - CUBE_LENGTH,
-            
             // FRONT QUAD
             x + offset, y + offset, z - CUBE_LENGTH,
             x - offset, y + offset, z - CUBE_LENGTH,
@@ -203,11 +200,11 @@ public class Chunk {
             x - offset, y - offset, z,
             x - offset, y - offset, z - CUBE_LENGTH,
             // RIGHT QUAD
-            x + offset, y + offset, z, 
-            x + offset, y + offset, z - CUBE_LENGTH, 
-            x + offset, y - offset, z - CUBE_LENGTH, 
+            x + offset, y + offset, z,
+            x + offset, y + offset, z - CUBE_LENGTH,
+            x + offset, y - offset, z - CUBE_LENGTH,
             x + offset, y - offset, z};
-}
+    }
 
     /**
      * Method: createCubeVertexCol(float[] CubeColorArray) Purpose: Creates a
