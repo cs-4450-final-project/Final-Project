@@ -50,7 +50,6 @@ public class Chunk {
         }
 
         rand = new Random();
-        float currFloat;
 
         blocks = new Block[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
 
@@ -69,7 +68,6 @@ public class Chunk {
      */
     public void render() {
         glPushMatrix();
-//        glPushMatrix(); //TODO: 2 push matrix?
 
         glBindBuffer(GL_ARRAY_BUFFER, vboVertexHandle);
         glVertexPointer(3, GL_FLOAT, 0, 0L);
@@ -98,6 +96,7 @@ public class Chunk {
         int largestFeature = 200;
         SimplexNoise noise = new SimplexNoise(largestFeature, persistance, (int) System.currentTimeMillis());
         float maxHeight = 0;
+        float currFloat;
 
         vboColorHandle = glGenBuffers();
         vboVertexHandle = glGenBuffers();
@@ -110,11 +109,10 @@ public class Chunk {
 
         for (float x = 0; x < CHUNK_SIZE; x++) {
             for (float z = 0; z < CHUNK_SIZE; z++) {
-
                 maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
                 for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
                     rand = new Random();
-                    float currFloat = rand.nextFloat();
+                    currFloat = rand.nextFloat();
                     if (y == 0) { //bottom layer
                         blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.BEDROCK);
                     } else if ((int)y == (int)maxHeight) { //top layer
