@@ -8,10 +8,11 @@
  * Date last modified: 3/8/19
  *
  * Purpose: Controls the camera in a first person space.
- ********************************************************************************* */
-
+ *********************************************************************************/
 import org.lwjgl.util.vector.Vector3f;
 import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
 
 public class FPCameraController {
 
@@ -21,8 +22,9 @@ public class FPCameraController {
     private float yaw, pitch;
 
     /**
-     * Constructor: FPCameraController(float x, float y, float z)
-     * Purpose: Make a new camera at a specific location.
+     * Constructor: FPCameraController(float x, float y, float z) Purpose: Make
+     * a new camera at a specific location.
+     *
      * @param x The x of the location.
      * @param y The y of the location.
      * @param z The z of the location.
@@ -37,8 +39,8 @@ public class FPCameraController {
     }
 
     /**
-     * Method: yaw(float amount)
-     * Purpose: Alter the yaw by an amount.
+     * Method: yaw(float amount) Purpose: Alter the yaw by an amount.
+     *
      * @param amount The amount to adjust yaw by.
      */
     public void yaw(float amount) {
@@ -46,8 +48,8 @@ public class FPCameraController {
     }
 
     /**
-     * Method: pitch(float amount)
-     * Purpose: Alter the pitch by an amount.
+     * Method: pitch(float amount) Purpose: Alter the pitch by an amount.
+     *
      * @param amount The amount to adjust pitch by.
      */
     public void pitch(float amount) {
@@ -55,8 +57,8 @@ public class FPCameraController {
     }
 
     /**
-     * Method: walkForwards(float distance)
-     * Purpose: Walk forwards a distance.
+     * Method: walkForwards(float distance) Purpose: Walk forwards a distance.
+     *
      * @param distance The distance to walk.
      */
     public void walkFowards(float distance) {
@@ -65,11 +67,14 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
-     * Method: walkBackwards(float distance)
-     * Purpose: Walk backwards a distance.
+     * Method: walkBackwards(float distance) Purpose: Walk backwards a distance.
+     *
      * @param distance The distance to walk.
      */
     public void walkBackwards(float distance) {
@@ -78,11 +83,15 @@ public class FPCameraController {
 
         position.setX(position.getX() + xOffset);
         position.setZ(position.getZ() - zOffset);
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
-     * Method: strafeLeft(float distance)
-     * Purpose: Walk sideways left a distance.
+     * Method: strafeLeft(float distance) Purpose: Walk sideways left a
+     * distance.
+     *
      * @param distance The distance to strafe.
      */
     public void strafeLeft(float distance) {
@@ -91,11 +100,15 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
-     * Method: strafeRight(float distance)
-     * Purpose: Walk sideways right a distance.
+     * Method: strafeRight(float distance) Purpose: Walk sideways right a
+     * distance.
+     *
      * @param distance The distance to strafe.
      */
     public void strafeRight(float distance) {
@@ -104,11 +117,14 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
-     * Method: moveUp(float distance)
-     * Purpose: Move up a distance.
+     * Method: moveUp(float distance) Purpose: Move up a distance.
+     *
      * @param distance The distance to move up.
      */
     public void moveUp(float distance) {
@@ -116,8 +132,8 @@ public class FPCameraController {
     }
 
     /**
-     * Method: moveDown(float distance)
-     * Purpose: Move down a distance.
+     * Method: moveDown(float distance) Purpose: Move down a distance.
+     *
      * @param distance The distance to move down.
      */
     public void moveDown(float distance) {
@@ -125,8 +141,8 @@ public class FPCameraController {
     }
 
     /**
-     * Method: lookThrough()
-     * Purpose: The alter the looking camera by its yaw, pitch, and position.
+     * Method: lookThrough() Purpose: The alter the looking camera by its yaw,
+     * pitch, and position.
      */
     public void lookThrough() {
         //rotate pitch about x
@@ -137,6 +153,10 @@ public class FPCameraController {
 
         //translate to position vector's location
         glTranslatef(position.getX(), position.getY(), position.getZ());
+
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 
     }
 

@@ -22,7 +22,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class Chunk {
 
-    static final int CHUNK_SIZE = 30;
+    static final int CHUNK_SIZE = 60;
     static final int CUBE_LENGTH = 2;
     private Block[][][] blocks;
     private int vboVertexHandle;
@@ -47,6 +47,7 @@ public class Chunk {
             System.out.println("Texture loaded!");
         } catch (IOException e) {
             System.out.print("Texture cannot be found!");
+            e.printStackTrace();
         }
 
         rand = new Random();

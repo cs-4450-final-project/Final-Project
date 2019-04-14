@@ -16,12 +16,16 @@ import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.Sys;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.BufferUtils;
+import java.nio.FloatBuffer;
 
 public class DisplayWindow3D {
 
     private FPCameraController camera;
     private DisplayMode displayMode;
     private Chunk chunk;
+    private FloatBuffer lightPosition;
+    private FloatBuffer whiteLight;
 
     /**
      * Constructor: DisplayWindow3D() Purpose: Initializes the camera, list of
@@ -87,6 +91,24 @@ public class DisplayWindow3D {
 
         glEnable(GL_TEXTURE_2D);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        initLightArrays();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition); //sets our light’s position
+        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+        glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+        glEnable(GL_LIGHTING);//enables our lighting
+        glEnable(GL_LIGHT0);//enables light0
+    }
+
+    /**
+     * Method: initLightArrays(): creates light
+     *
+     */
+    private void initLightArrays() {
+        lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
+        whiteLight = BufferUtils.createFloatBuffer(4);
+        whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
     }
 
     /**
