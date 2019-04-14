@@ -165,6 +165,7 @@ public class DisplayWindow3D {
             //Draw buffer to screen
             Display.update();
             Display.sync(60);
+            
 
         }
         Display.destroy();

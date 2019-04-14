@@ -8,7 +8,7 @@
  * Date last modified: 3/8/19
  *
  * Purpose: Controls the camera in a first person space.
- *********************************************************************************/
+ ******************************************************************************** */
 import org.lwjgl.util.vector.Vector3f;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.BufferUtils;
@@ -68,7 +68,8 @@ public class FPCameraController {
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        lightPosition.put(lPosition.x -= xOffset).put(
+                lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
@@ -84,7 +85,8 @@ public class FPCameraController {
         position.setX(position.getX() + xOffset);
         position.setZ(position.getZ() - zOffset);
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        lightPosition.put(lPosition.x += xOffset).put(
+                lPosition.y).put(lPosition.z -= zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
@@ -101,7 +103,8 @@ public class FPCameraController {
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        lightPosition.put(lPosition.x -= xOffset).put(
+                lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
@@ -118,7 +121,8 @@ public class FPCameraController {
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(lPosition.x -= xOffset).put(lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
+        lightPosition.put(lPosition.x -= xOffset).put(
+                lPosition.y).put(lPosition.z += zOffset).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
