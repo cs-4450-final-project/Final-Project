@@ -32,7 +32,7 @@ public class DisplayWindow3D {
      * shapes, and initializes the objects to be drawn.
      */
     public DisplayWindow3D() {
-        camera = new FPCameraController(0f, 0f, 0f);
+        camera = new FPCameraController(0f, -30f, 0f);
 
     }
 
@@ -115,7 +115,7 @@ public class DisplayWindow3D {
      * Method: gameLoop() Purpose: For the camera controls.
      */
     private void gameLoop() {
-        chunk = new Chunk(0, 0, 0);
+        chunk = new Chunk(0, 30, 0);
 
         float dx, dy;
         long time;
