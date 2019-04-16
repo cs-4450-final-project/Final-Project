@@ -10,16 +10,7 @@
  * Purpose: Controls the camera in a first person space.
  ******************************************************************************** */
 import org.lwjgl.util.vector.Vector3f;
-/*import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.BufferUtils;
-import java.nio.FloatBuffer;*/
-import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.Sys;
-import org.lwjgl.util.glu.GLU;
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
 
@@ -76,6 +67,7 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -92,6 +84,7 @@ public class FPCameraController {
 
         position.setX(position.getX() + xOffset);
         position.setZ(position.getZ() - zOffset);
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -109,6 +102,7 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -126,6 +120,7 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -150,6 +145,7 @@ public class FPCameraController {
      */
     public void moveDown(float distance) {
         position.setY(position.getY() + distance);
+
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
@@ -160,21 +156,17 @@ public class FPCameraController {
      * pitch, and position.
      */
     public void lookThrough() {
-        
         FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
         glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+
         //rotate pitch about x
         glRotatef(pitch, 1.0f, 0.0f, 0.0f);
 
         //rotate yaw about y
         glRotatef(yaw, 0.0f, 1.0f, 0.0f);
 
-        //translate to position vector's location
         glTranslatef(position.getX(), position.getY(), position.getZ());
-        
-        
-
     }
 
 }
