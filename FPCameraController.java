@@ -76,9 +76,9 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -92,9 +92,9 @@ public class FPCameraController {
 
         position.setX(position.getX() + xOffset);
         position.setZ(position.getZ() - zOffset);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -109,9 +109,9 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -126,9 +126,9 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -138,9 +138,9 @@ public class FPCameraController {
      */
     public void moveUp(float distance) {
         position.setY(position.getY() - distance);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -150,9 +150,9 @@ public class FPCameraController {
      */
     public void moveDown(float distance) {
         position.setY(position.getY() + distance);
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+//        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+//        lightPosition.put(position.getX()).put(position.getY()).put(position.getZ()).put(1.0f).flip();
+//        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
     }
 
     /**
@@ -161,9 +161,7 @@ public class FPCameraController {
      */
     public void lookThrough() {
         
-        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+        
         //rotate pitch about x
         glRotatef(pitch, 1.0f, 0.0f, 0.0f);
 
