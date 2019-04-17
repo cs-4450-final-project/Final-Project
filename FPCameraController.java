@@ -161,6 +161,9 @@ public class FPCameraController {
      */
     public void lookThrough() {
         
+        FloatBuffer lightPosition = BufferUtils.createFloatBuffer(4);
+        lightPosition.put(lPosition.x).put(lPosition.y).put(lPosition.z).put(1.0f).flip();
+        glLight(GL_LIGHT0, GL_POSITION, lightPosition);
         
         //rotate pitch about x
         glRotatef(pitch, 1.0f, 0.0f, 0.0f);
