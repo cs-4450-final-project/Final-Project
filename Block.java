@@ -1,7 +1,7 @@
 
 /** ********************************************************************************
  * File: Block.java
- * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
@@ -9,7 +9,6 @@
  *
  * Purpose: Represents a single block. Holds its type, state, and location.
  ********************************************************************************* */
-
 public class Block {
 
     private boolean isActive;
@@ -24,31 +23,33 @@ public class Block {
      */
     public Block(BlockType blockType) {
         this.blockType = blockType;
-        
-        if(blockType != null) switch (blockType) {
-            case GRASS:
-                blockType.setBlockID(0);
-                break;
-            case SAND:
-                blockType.setBlockID(1);
-                break;
-            case WATER:
-                blockType.setBlockID(2);
-                break;
-            case DIRT:
-                blockType.setBlockID(3);
-                break;
-            case STONE:
-                blockType.setBlockID(4);
-                break;
-            case BEDROCK:
-                blockType.setBlockID(5);
-                break;
-            case DEFAULT:
-                blockType.setBlockID(-1);
-                break;
-            default:
-                break;
+
+        if (blockType != null) {
+            switch (blockType) {
+                case GRASS:
+                    blockType.setBlockID(0);
+                    break;
+                case SAND:
+                    blockType.setBlockID(1);
+                    break;
+                case WATER:
+                    blockType.setBlockID(2);
+                    break;
+                case DIRT:
+                    blockType.setBlockID(3);
+                    break;
+                case STONE:
+                    blockType.setBlockID(4);
+                    break;
+                case BEDROCK:
+                    blockType.setBlockID(5);
+                    break;
+                case DEFAULT:
+                    blockType.setBlockID(-1);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -104,8 +105,8 @@ public class Block {
     }
 
     /**
-     * Method: getCoods()
-     * Returns the x, y, and z values as a float[].
+     * Method: getCoods() Returns the x, y, and z values as a float[].
+     *
      * @return A float array of the {x, y, z} values.
      */
     public float[] getCoords() {
@@ -113,17 +114,19 @@ public class Block {
     }
 
     /**
-     * Method: isActive()
-     * Purpose: Checks if the block is active. If not, it's not rendered.
-     * @return 
+     * Method: isActive() Purpose: Checks if the block is active. If not, it's
+     * not rendered.
+     *
+     * @return
      */
     public boolean isActive() {
         return isActive;
     }
 
     /**
-     * Method: setActive(boolean isActive)
-     * Purpose: Sets the block to either active or inactive.
+     * Method: setActive(boolean isActive) Purpose: Sets the block to either
+     * active or inactive.
+     *
      * @param isActive The boolean to set the state of the block.
      */
     public void setActive(boolean isActive) {
@@ -131,9 +134,10 @@ public class Block {
     }
 
     /**
-     * Method: getID()
-     * Purpose: Returns the id of the block given from its block type.
-     * @return 
+     * Method: getID() Purpose: Returns the id of the block given from its block
+     * type.
+     *
+     * @return
      */
     public int getID() {
         return blockType.getBlockID();

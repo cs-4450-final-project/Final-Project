@@ -1,11 +1,11 @@
 
 /** ********************************************************************************
  * File: DisplayWindow3D.java
- * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/26/19
+ * Date last modified: 4/17/19
  *
  * Purpose: To display the screen and its objects.
  ********************************************************************************* */
@@ -95,9 +95,7 @@ public class DisplayWindow3D {
         glShadeModel(GL_SMOOTH);
         initLightArrays();
         glEnable(GL_LIGHT0);//enables light0
-        
 
-        
     }
 
     /**
@@ -159,7 +157,7 @@ public class DisplayWindow3D {
             glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
             glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
             glLoadIdentity();
-            
+
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //draw here

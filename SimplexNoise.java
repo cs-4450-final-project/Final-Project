@@ -1,7 +1,7 @@
 
 /** ********************************************************************************
  * File: SimplexNoise.java
- * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
@@ -9,7 +9,6 @@
  *
  * Purpose: Generates simplex noise for random world generation.
  ********************************************************************************* */
-
 import java.util.Random;
 
 public class SimplexNoise {

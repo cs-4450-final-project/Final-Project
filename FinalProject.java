@@ -1,16 +1,17 @@
+
 /** ********************************************************************************
  * File: FinalProject.java
- Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
- Class: CS 4450 - Computer Graphics
-
- Assignment: Final Project
- Date last modified: 3/4/19
-
- Purpose: Run the program.
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson
+ * Class: CS 4450 - Computer Graphics
+ *
+ * Assignment: Final Project
+ * Date last modified: 3/4/19
+ *
+ * Purpose: Run the program.
  ********************************************************************************* */
 
-
 public class FinalProject {
+
     /**
      * @param args the command line arguments
      */
@@ -18,6 +19,6 @@ public class FinalProject {
         // TODO code application logic here
         DisplayWindow3D display = new DisplayWindow3D();
         display.start();
-        
+
     }
 }

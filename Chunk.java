@@ -1,7 +1,7 @@
 
 /** ********************************************************************************
  * File: Chunk.java
- * Authors: Chloe Mei Stabinsky, Hunter Swanson, Brian Cho
+ * Authors: Chloe Mei Stabinsky, Hunter Swanson
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
@@ -116,7 +116,7 @@ public class Chunk {
                     currFloat = rand.nextFloat();
                     if (y == 0) { //bottom layer
                         blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.BEDROCK);
-                    } else if ((int)y == (int)maxHeight) { //top layer
+                    } else if ((int) y == (int) maxHeight) { //top layer
                         if (currFloat < 0.3) {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.GRASS);
                         } else if (currFloat >= 0.3 && currFloat < 0.6) {
