@@ -91,22 +91,21 @@ public class DisplayWindow3D {
 
         glEnable(GL_TEXTURE_2D);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        initLightArrays();
-        glLight(GL_LIGHT0, GL_POSITION, lightPosition); //sets our light’s position
-        glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
-        glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
-        glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
         glEnable(GL_LIGHTING);//enables our lighting
+        glShadeModel(GL_SMOOTH);
+        initLightArrays();
         glEnable(GL_LIGHT0);//enables light0
+        
+
+        
     }
 
     /**
-     * Method: initLightArrays(): creates light
-     *
+     * Method: initLightArrays() Purpose: Initializes the light arrays.
      */
     private void initLightArrays() {
         lightPosition = BufferUtils.createFloatBuffer(4);
-        lightPosition.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
+        lightPosition.put(0.0f).put(0.0f).put(0.0f).put(-1.0f).flip();
         whiteLight = BufferUtils.createFloatBuffer(4);
         whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
     }
@@ -115,7 +114,7 @@ public class DisplayWindow3D {
      * Method: gameLoop() Purpose: For the camera controls.
      */
     private void gameLoop() {
-        chunk = new Chunk(0, 30, 0);
+        chunk = new Chunk(-60, 30, -60);
 
         float dx, dy;
         long time;
@@ -155,8 +154,12 @@ public class DisplayWindow3D {
             }
             camera.yaw(dx * mouseXZSens);
             camera.pitch(dy * mouseYSens);
+            glLight(GL_LIGHT0, GL_POSITION, lightPosition); //sets our light’s position
+            glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+            glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+            glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
             glLoadIdentity();
-
+            
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //draw here
@@ -165,7 +168,6 @@ public class DisplayWindow3D {
             //Draw buffer to screen
             Display.update();
             Display.sync(60);
-            
 
         }
         Display.destroy();
