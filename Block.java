@@ -44,6 +44,9 @@ public class Block {
                 case BEDROCK:
                     blockType.setBlockID(5);
                     break;
+                case CACTUS:
+                    blockType.setBlockID(6);
+                    break;
                 case DEFAULT:
                     blockType.setBlockID(-1);
                     break;
@@ -58,7 +61,7 @@ public class Block {
      * block id;
      */
     public enum BlockType {
-        GRASS, SAND, DIRT, STONE, WATER, BEDROCK, DEFAULT;
+        GRASS, SAND, DIRT, STONE, WATER, BEDROCK, CACTUS, DEFAULT;
 
         private int blockID;
 

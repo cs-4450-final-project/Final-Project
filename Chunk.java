@@ -86,6 +86,14 @@ public class Chunk {
         glPopMatrix();
     }
 
+    private void buildCactus(float x, float y, float z) {
+        int cactusHeight = 3;
+
+        for (int i = 0; i < cactusHeight; i++) {
+            blocks[(int) x][(int) y + i][(int) z] = new Block(Block.BlockType.CACTUS);
+        }
+    }
+
     /**
      * Method: rebuildMesh(float startX, float startY, float startZ) Purpose:
      * Rebuilds the mesh.
@@ -123,6 +131,7 @@ public class Chunk {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.GRASS);
                         } else if (currFloat >= 0.3 && currFloat < 0.6) {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.SAND);
+                            buildCactus(x, y + 1, z);
                         } else {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.WATER);
                         }
@@ -134,9 +143,21 @@ public class Chunk {
                         }
                     }
 
-                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH), (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)), (float) (startZ + z * CUBE_LENGTH)));
+                    vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
+                            (float) (y * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
+                            (float) (startZ + z * CUBE_LENGTH)));
                     vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
                     vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
+                    
+                    if (blocks[(int) (x)][(int) (y)][(int) (z)].getID() == 1) {
+                        for (int i = 1; i <= 3; i++) {
+                            vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
+                                    (float) ((y + i) * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
+                                    (float) (startZ + z * CUBE_LENGTH)));
+                            vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) (y + i)][(int) z])));
+                            vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y + i)][(int) (z)]));
+                        }
+                    }
                 }
             }
         }
@@ -257,6 +278,8 @@ public class Chunk {
                 return stoneTexture(x, y, offset);
             case 5:
                 return bedrockTexture(x, y, offset);
+            case 6:
+                return cactusTexture(x, y, offset);
             default:
                 return defaultTexture(x, y, offset);
         }
@@ -561,5 +584,39 @@ public class Chunk {
             x + offset * 2, y + offset * 3,
             x + offset * 2, y + offset * 4,
             x + offset * 1, y + offset * 4};
+    }
+
+    private float[] cactusTexture(float x, float y, float offset) {
+        return new float[]{
+            // BOTTOM QUAD(DOWN=+Y) x: 7, 8 y: 4, 5
+            x + offset * 8, y + offset * 5,
+            x + offset * 7, y + offset * 5,
+            x + offset * 7, y + offset * 4,
+            x + offset * 8, y + offset * 4,
+            // TOP! x: 5,6 y: 4,5
+            x + offset * 6, y + offset * 5,
+            x + offset * 5, y + offset * 5,
+            x + offset * 5, y + offset * 4,
+            x + offset * 6, y + offset * 4,
+            // FRONT QUAD x: 6, 7 y: 4, 5
+            x + offset * 6, y + offset * 4,
+            x + offset * 7, y + offset * 4,
+            x + offset * 6, y + offset * 5,
+            x + offset * 7, y + offset * 5,
+            // BACK QUAD 
+            x + offset * 7, y + offset * 5,
+            x + offset * 6, y + offset * 5,
+            x + offset * 6, y + offset * 4,
+            x + offset * 7, y + offset * 4,
+            // LEFT QUAD 
+            x + offset * 6, y + offset * 4,
+            x + offset * 7, y + offset * 4,
+            x + offset * 7, y + offset * 5,
+            x + offset * 6, y + offset * 5,
+            // RIGHT QUAD 
+            x + offset * 6, y + offset * 4,
+            x + offset * 7, y + offset * 4,
+            x + offset * 7, y + offset * 5,
+            x + offset * 6, y + offset * 5};
     }
 }
