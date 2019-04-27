@@ -86,9 +86,7 @@ public class Chunk {
         glPopMatrix();
     }
 
-    private void buildCactus(float x, float y, float z) {
-        int cactusHeight = 3;
-
+    private void buildCactus(float x, float y, float z, int cactusHeight) {
         for (int i = 0; i < cactusHeight; i++) {
             blocks[(int) x][(int) y + i][(int) z] = new Block(Block.BlockType.CACTUS);
         }
@@ -122,6 +120,8 @@ public class Chunk {
             for (float z = 0; z < CHUNK_SIZE; z++) {
                 maxHeight = (startY + (float) (100 * noise.getNoise((int) x, (int) z)) * CUBE_LENGTH);
                 for (float y = 0; y < maxHeight && y < CHUNK_SIZE; y++) {
+                    boolean hasCactus = false;
+                    int cactusHeight = 0;
                     rand = new Random();
                     currFloat = rand.nextFloat();
                     if (y == 0) { //bottom layer
@@ -131,7 +131,11 @@ public class Chunk {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.GRASS);
                         } else if (currFloat >= 0.3 && currFloat < 0.6) {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.SAND);
-                            buildCactus(x, y + 1, z);
+                            if (rand.nextFloat() < 0.05) {
+                                cactusHeight = rand.nextInt(5);
+                                buildCactus(x, y + 1, z, cactusHeight);
+                                hasCactus = true;
+                            }
                         } else {
                             blocks[(int) x][(int) y][(int) z] = new Block(Block.BlockType.WATER);
                         }
@@ -148,9 +152,9 @@ public class Chunk {
                             (float) (startZ + z * CUBE_LENGTH)));
                     vertexColorData.put(createCubeVertexCol(getCubeColor(blocks[(int) x][(int) y][(int) z])));
                     vertexTextureData.put(createTexCube((float) 0, (float) 0, blocks[(int) (x)][(int) (y)][(int) (z)]));
-                    
-                    if (blocks[(int) (x)][(int) (y)][(int) (z)].getID() == 1) {
-                        for (int i = 1; i <= 3; i++) {
+
+                    if (blocks[(int) (x)][(int) (y)][(int) (z)].getID() == 1 && hasCactus == true) {
+                        for (int i = 1; i <= cactusHeight; i++) {
                             vertexPositionData.put(createCube((float) (startX + x * CUBE_LENGTH),
                                     (float) ((y + i) * CUBE_LENGTH + (int) (CHUNK_SIZE * .8)),
                                     (float) (startZ + z * CUBE_LENGTH)));
