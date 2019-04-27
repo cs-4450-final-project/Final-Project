@@ -12,6 +12,8 @@
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
@@ -43,7 +45,7 @@ public class Chunk {
      */
     public Chunk(int startX, int startY, int startZ) {
         try {
-            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrain3.png"));
+            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("terrainMain.png"));
             System.out.println("Texture loaded!");
         } catch (IOException e) {
             System.out.print("Texture cannot be found!");

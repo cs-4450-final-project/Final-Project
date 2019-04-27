@@ -32,7 +32,7 @@ public class DisplayWindow3D {
      * shapes, and initializes the objects to be drawn.
      */
     public DisplayWindow3D() {
-        camera = new FPCameraController(0f, -30f, 0f);
+        camera = new FPCameraController(0f, -130f, 0f);
 
     }
 
@@ -145,6 +145,10 @@ public class DisplayWindow3D {
 
             if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
                 camera.moveUp(movementSpeed);
+            }
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_TAB)) {
+                chunk = new Chunk(-60, 30, -60);
             }
 
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
