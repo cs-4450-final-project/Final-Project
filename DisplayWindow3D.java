@@ -24,7 +24,7 @@ public class DisplayWindow3D {
     private FPCameraController camera;
     private DisplayMode displayMode;
     private Chunk chunk;
-    private FloatBuffer lightPosition0;
+    private FloatBuffer lightPosition0, lightPosition1, lightDirection1;
     private FloatBuffer whiteLight, rainbowLight;
     private float timer, timerLSD;
 
@@ -106,16 +106,25 @@ public class DisplayWindow3D {
      */
     private void initLightArrays() {
         lightPosition0 = BufferUtils.createFloatBuffer(4);
-        lightPosition0.put(0.0f).put(240.0f).put(0.0f).put(1.0f).flip();
+        lightPosition0.put(0.0f).put(0.0f).put(0.0f).put(1.0f).flip();
         whiteLight = BufferUtils.createFloatBuffer(4);
         whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
 
+        lightPosition1 = BufferUtils.createFloatBuffer(4);
+        lightPosition1.put(60.0f).put(-160.0f).put(0.0f).put(0.0f).flip();
+        lightDirection1 = BufferUtils.createFloatBuffer(4);
+        lightDirection1.put(-60.0f).put(-160.0f).put(0.0f).put(0.0f).flip();
     }
 
-    private void updateLightColor() {
+    private void updateLights() {
         timer++;
         rainbowLight = BufferUtils.createFloatBuffer(4);
         rainbowLight.put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer)))).put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer * 3)))).put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer * 5)))).put(0.0f).flip();
+
+        lightPosition1 = BufferUtils.createFloatBuffer(4);
+        lightPosition1.put((float) (240.0 * Math.cos(Math.toRadians(timer)))).put(-160.0f).put((float) (240.0 * Math.sin(Math.toRadians(timer)))).put(0.0f).flip();
+        lightDirection1 = BufferUtils.createFloatBuffer(4);
+        lightDirection1.put((float) (-Math.cos(Math.toRadians(timer)))).put(0).put((float) (-Math.sin(Math.toRadians(timer)))).put(0.0f).flip();
     }
 
     /**
@@ -170,29 +179,40 @@ public class DisplayWindow3D {
             }
             camera.yaw(dx * mouseXZSens);
             camera.pitch(dy * mouseYSens);
-            updateLightColor();
+            updateLights();
             glLight(GL_LIGHT0, GL_POSITION, lightPosition0); //sets our light’s position
-            if (!Mouse.isButtonDown(GL_ZERO)) {
-                
-                glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
-                glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
-                glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
-                
-            } else {
-                
-                glLight(GL_LIGHT0, GL_SPECULAR, rainbowLight);//sets our specular light
-                glLight(GL_LIGHT0, GL_DIFFUSE, rainbowLight);//sets our diffuse light
-                glLight(GL_LIGHT0, GL_AMBIENT, rainbowLight);//sets our ambient light
-                
-            }
+            glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+            glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+            glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
             glEnable(GL_LIGHT0);//enables light0
+            
+            
+            glLight(GL_LIGHT1, GL_POSITION, lightPosition1); //sets our light’s position
+            glLight(GL_LIGHT1, GL_SPECULAR, rainbowLight);//sets our specular light
+            glLight(GL_LIGHT1, GL_DIFFUSE, rainbowLight);//sets our diffuse light
+            glLight(GL_LIGHT1, GL_AMBIENT, rainbowLight);//sets our ambient light
+            glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 45.0f);
+            glLight(GL_LIGHT1, GL_SPOT_DIRECTION, lightDirection1);
+
+            glEnable(GL_LIGHT1);
+//            System.out.println("LightPosition0:"+lightPosition0.get(0)+","+lightPosition0.get(1)+","+lightPosition0.get(2)+","+lightPosition0.get(3));
+//            System.out.println("LightPosition1:"+lightPosition1.get(0)+","+lightPosition1.get(1)+","+lightPosition1.get(2)+","+lightPosition1.get(3));
+//            
+          
+
+            
+
             glLoadIdentity();
+            
             GLU.gluPerspective(105.0f - 45.0f * (float) Math.cos(Math.toRadians(timerLSD)), (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
 
+            
+            
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //draw here
             chunk.render();
+            
 
             //Draw buffer to screen
             Display.update();
