@@ -26,6 +26,7 @@ public class DisplayWindow3D {
     private Chunk chunk;
     private FloatBuffer lightPosition;
     private FloatBuffer whiteLight;
+    private float timerLSD;
 
     /**
      * Constructor: DisplayWindow3D() Purpose: Initializes the camera, list of
@@ -78,10 +79,11 @@ public class DisplayWindow3D {
      * display.
      */
     private void initGL() {
+        timerLSD = 0;
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        GLU.gluPerspective(100.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
+        //GLU.gluPerspective(100.0f, (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
         glMatrixMode(GL_MODELVIEW);
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
@@ -154,13 +156,19 @@ public class DisplayWindow3D {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
                 camera.moveDown(movementSpeed);
             }
+            if(Mouse.isButtonDown(GL_ONE)){
+                timerLSD+=.01;
+                
+            }
             camera.yaw(dx * mouseXZSens);
             camera.pitch(dy * mouseYSens);
             glLight(GL_LIGHT0, GL_POSITION, lightPosition); //sets our light’s position
             glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
             glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
             glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+            
             glLoadIdentity();
+            GLU.gluPerspective(110.0f-40.0f*(float)Math.cos(timerLSD), (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
 
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
