@@ -25,7 +25,7 @@ public class DisplayWindow3D {
     private DisplayMode displayMode;
     private Chunk chunk;
     private FloatBuffer lightPosition0;
-    private FloatBuffer whiteLight ;
+    private FloatBuffer whiteLight, rainbowLight;
     private float timer, timerLSD;
 
     /**
@@ -97,9 +97,8 @@ public class DisplayWindow3D {
         glEnable(GL_LIGHTING);//enables our lighting
         glShadeModel(GL_SMOOTH);
         initLightArrays();
-        
-//        glEnable(GL_LIGHT1);
 
+//        glEnable(GL_LIGHT1);
     }
 
     /**
@@ -110,15 +109,14 @@ public class DisplayWindow3D {
         lightPosition0.put(0.0f).put(240.0f).put(0.0f).put(1.0f).flip();
         whiteLight = BufferUtils.createFloatBuffer(4);
         whiteLight.put(1.0f).put(1.0f).put(1.0f).put(0.0f).flip();
-        
 
     }
-    private void updateLightColor(){
+
+    private void updateLightColor() {
         timer++;
-        whiteLight = BufferUtils.createFloatBuffer(4);
-        whiteLight.put((float)(0.5+.5*Math.cos(Math.toRadians(timer)))).put((float)(0.5+.5*Math.cos(Math.toRadians(timer*3)))).put((float)(0.5+.5*Math.cos(Math.toRadians(timer*5)))).put(0.0f).flip();
+        rainbowLight = BufferUtils.createFloatBuffer(4);
+        rainbowLight.put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer)))).put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer * 3)))).put((float) (0.5 + .5 * Math.cos(Math.toRadians(timer * 5)))).put(0.0f).flip();
     }
-    
 
     /**
      * Method: gameLoop() Purpose: For the camera controls.
@@ -166,23 +164,30 @@ public class DisplayWindow3D {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
                 camera.moveDown(movementSpeed);
             }
-            if(Mouse.isButtonDown(GL_ONE)){
+            if (Mouse.isButtonDown(GL_ONE)) {
                 timerLSD++;
-                
+
             }
             camera.yaw(dx * mouseXZSens);
             camera.pitch(dy * mouseYSens);
             updateLightColor();
             glLight(GL_LIGHT0, GL_POSITION, lightPosition0); //sets our light’s position
-            glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
-            glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
-            glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+            if (!Mouse.isButtonDown(GL_ZERO)) {
+                
+                glLight(GL_LIGHT0, GL_SPECULAR, whiteLight);//sets our specular light
+                glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
+                glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
+                
+            } else {
+                
+                glLight(GL_LIGHT0, GL_SPECULAR, rainbowLight);//sets our specular light
+                glLight(GL_LIGHT0, GL_DIFFUSE, rainbowLight);//sets our diffuse light
+                glLight(GL_LIGHT0, GL_AMBIENT, rainbowLight);//sets our ambient light
+                
+            }
             glEnable(GL_LIGHT0);//enables light0
-            
-
-            
             glLoadIdentity();
-            GLU.gluPerspective(105.0f-45.0f*(float)Math.cos(Math.toRadians(timerLSD)), (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
+            GLU.gluPerspective(105.0f - 45.0f * (float) Math.cos(Math.toRadians(timerLSD)), (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
 
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
