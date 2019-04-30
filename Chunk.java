@@ -605,8 +605,8 @@ public class Chunk {
             // FRONT QUAD x: 6, 7 y: 4, 5
             x + offset * 6, y + offset * 4,
             x + offset * 7, y + offset * 4,
-            x + offset * 6, y + offset * 5,
             x + offset * 7, y + offset * 5,
+            x + offset * 6, y + offset * 5,
             // BACK QUAD 
             x + offset * 7, y + offset * 5,
             x + offset * 6, y + offset * 5,
