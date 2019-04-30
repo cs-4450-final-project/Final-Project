@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/17/19
+ * Date last modified: 4/29/19
  *
  * Purpose: Controls the camera in a first person space.
  ******************************************************************************** */
@@ -92,7 +92,6 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
-
     }
 
     /**
@@ -107,7 +106,6 @@ public class FPCameraController {
 
         position.setX(position.getX() - xOffset);
         position.setZ(position.getZ() + zOffset);
-
     }
 
     /**
@@ -126,7 +124,6 @@ public class FPCameraController {
      */
     public void moveDown(float distance) {
         position.setY(position.getY() + distance);
-
     }
 
     /**
@@ -142,5 +139,4 @@ public class FPCameraController {
 
         glTranslatef(position.getX(), position.getY(), position.getZ());
     }
-
 }

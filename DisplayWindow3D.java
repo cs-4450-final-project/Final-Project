@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 4/17/19
+ * Date last modified: 4/29/19
  *
  * Purpose: To display the screen and its objects.
  ********************************************************************************* */
@@ -14,7 +14,6 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.Sys;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
@@ -34,11 +33,10 @@ public class DisplayWindow3D {
      */
     public DisplayWindow3D() {
         camera = new FPCameraController(0f, -130f, 0f);
-
     }
 
     /**
-     * Method: start() Purpose: To create, initialize GL, and render the window
+     * Method: start() : To create, initialize GL, and render the window
      * of the display.
      */
     public void start() {
@@ -97,8 +95,6 @@ public class DisplayWindow3D {
         glEnable(GL_LIGHTING);//enables our lighting
         glShadeModel(GL_SMOOTH);
         initLightArrays();
-
-//        glEnable(GL_LIGHT1);
     }
 
     /**
@@ -134,15 +130,12 @@ public class DisplayWindow3D {
         chunk = new Chunk(-60, 30, -60);
 
         float dx, dy;
-        long time;
         float mouseXZSens = 0.10f;
         float mouseYSens = 0.10f;
         float movementSpeed = 0.35f;
 
         Mouse.setGrabbed(true);
         while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            time = Sys.getTime();
-
             dx = Mouse.getDX(); //get dis of mouse movement for x & y
             dy = Mouse.getDY();
 
@@ -185,8 +178,7 @@ public class DisplayWindow3D {
             glLight(GL_LIGHT0, GL_DIFFUSE, whiteLight);//sets our diffuse light
             glLight(GL_LIGHT0, GL_AMBIENT, whiteLight);//sets our ambient light
             glEnable(GL_LIGHT0);//enables light0
-            
-            
+
             glLight(GL_LIGHT1, GL_POSITION, lightPosition1); //sets our light’s position
             glLight(GL_LIGHT1, GL_SPECULAR, rainbowLight);//sets our specular light
             glLight(GL_LIGHT1, GL_DIFFUSE, rainbowLight);//sets our diffuse light
@@ -195,29 +187,19 @@ public class DisplayWindow3D {
             glLight(GL_LIGHT1, GL_SPOT_DIRECTION, lightDirection1);
 
             glEnable(GL_LIGHT1);
-//            System.out.println("LightPosition0:"+lightPosition0.get(0)+","+lightPosition0.get(1)+","+lightPosition0.get(2)+","+lightPosition0.get(3));
-//            System.out.println("LightPosition1:"+lightPosition1.get(0)+","+lightPosition1.get(1)+","+lightPosition1.get(2)+","+lightPosition1.get(3));
-//            
-          
-
-            
 
             glLoadIdentity();
-            
+
             GLU.gluPerspective(105.0f - 45.0f * (float) Math.cos(Math.toRadians(timerLSD)), (float) displayMode.getWidth() / (float) displayMode.getHeight(), 0.1f, 300.0f);
 
-            
-            
             camera.lookThrough();
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             //draw here
             chunk.render();
-            
 
             //Draw buffer to screen
             Display.update();
             Display.sync(60);
-
         }
         Display.destroy();
     }

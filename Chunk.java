@@ -5,15 +5,13 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/26/19
+ * Date last modified: 4/29/19
  *
  * Purpose: Represents a chunk, which will hold a number of blocks at once.
  ********************************************************************************* */
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;

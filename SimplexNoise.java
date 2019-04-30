@@ -5,7 +5,7 @@
  * Class: CS 4450 - Computer Graphics
  *
  * Assignment: Final Project
- * Date last modified: 3/26/19
+ * Date last modified: 4/29/19
  *
  * Purpose: Generates simplex noise for random world generation.
  ********************************************************************************* */
@@ -42,7 +42,6 @@ public class SimplexNoise {
             amplitudes[i] = Math.pow(persistence, octaves.length - i);
 
         }
-
     }
 
     public double getNoise(int x, int y) {
@@ -57,7 +56,6 @@ public class SimplexNoise {
         }
 
         return result;
-
     }
 
     public double getNoise(int x, int y, int z) {
@@ -72,6 +70,5 @@ public class SimplexNoise {
         }
 
         return result;
-
     }
 }
