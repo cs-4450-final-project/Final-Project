@@ -36,8 +36,8 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: start() : To create, initialize GL, and render the window
-     * of the display.
+     * Method: start() : To create, initialize GL, and render the window of the
+     * display.
      */
     public void start() {
         try {
@@ -124,7 +124,9 @@ public class DisplayWindow3D {
     }
 
     /**
-     * Method: gameLoop() Purpose: For the camera controls.
+     * Method: gameLoop() Purpose: For the camera controls. Use WASD to move,
+     * crouch to go down, space to go up. Press right click to change FOV. Press
+     * TAB to reload the chunk.
      */
     private void gameLoop() {
         chunk = new Chunk(-60, 30, -60);
@@ -168,7 +170,6 @@ public class DisplayWindow3D {
             }
             if (Mouse.isButtonDown(GL_ONE)) {
                 timerLSD++;
-
             }
             camera.yaw(dx * mouseXZSens);
             camera.pitch(dy * mouseYSens);
